@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <title>WeCreat</title>
+    <link rel="stylesheet" href="styles.css?v=20260401v21">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <div id="dashboardView" class="dashboard-view">
+        <nav class="dash-nav"><div class="dash-nav-left"><i class="fas fa-gamepad dash-nav-logo"></i><span class="dash-nav-brand">WeCreat</span></div></nav>
+        <div class="dash-main">
+            <section class="dash-hero-card" id="dashHeroCard">
+                <div class="dash-hero-mesh"><div class="mesh-orb orb-1"></div><div class="mesh-orb orb-2"></div><div class="mesh-orb orb-3"></div><div class="mesh-orb orb-4"></div><div class="mesh-orb orb-5"></div></div>
+                <div class="dash-hero-dots"></div>
+                <div class="dash-hero-content">
+                    <div class="dash-hero-top">
+                        <div class="dash-hero-greet-area"><h2 class="dash-hero-greeting" id="dashGreetingText">晚上好</h2><p class="dash-hero-quote" id="dashQuoteText">今天想做点什么好玩的？</p></div>
+                        <button class="dash-hero-cta" id="dashHeroCta"><span class="cta-glow"></span><i class="fas fa-plus"></i> 开始创作</button>
+                    </div>
+                    <div class="dash-hero-team-grid" id="dashTeamGrid"></div>
+                </div>
+            </section>
+            <section class="dash-projects" id="dashProjects"><div class="dash-projects-header"><h3 class="dash-section-title">我的作品</h3><button class="dash-view-all-btn" id="dashViewAllBtn">查看全部 <i class="fas fa-chevron-right"></i></button></div><div class="dash-projects-grid" id="dashProjectsGrid"></div></section>
+            <section class="dash-community" id="dashCommunity"><div class="dash-section-header"><h3 class="dash-section-title">社区精选</h3><span class="dash-section-sub">来自创作者社区的优秀作品</span></div><div class="dash-community-grid" id="dashCommunityGrid"></div></section>
+        </div>
+        <div class="dash-all-projects" id="dashAllProjects" style="display:none;"><div class="dash-all-header"><button class="dash-all-back" id="dashAllBack"><i class="fas fa-chevron-left"></i> 返回</button><h3 class="dash-all-title">我的全部作品</h3><button class="dash-all-new-btn" id="dashAllNewBtn"><i class="fas fa-plus"></i> 新建作品</button></div><div class="dash-all-grid" id="dashAllGrid"></div></div>
+    </div>
+    <div class="app-container" id="workspaceView" style="display:none;">
+        <header class="topbar" id="topbar">
+            <div class="topbar-left">
+                <button class="topbar-back-btn" id="btnBackHome" title="返回首页"><i class="fas fa-chevron-left"></i></button>
+                <div class="topbar-logo" title="WeCreat"><i class="fas fa-gamepad"></i></div>
+                <div class="topbar-divider"></div>
+                <h2 class="project-title" id="projectTitle">太空射击小游戏</h2>
+                <span class="project-status running" id="projectStatus">执行中</span>
+                <div class="api-mode-switch" title="切换仿真/真实 API 模式"><label class="api-toggle"><input type="checkbox" id="apiModeToggle"><span class="api-toggle-slider"></span></label><span id="apiModeLabel" class="api-mode-label">仿真模式</span></div>
+                <div class="mode-switch" id="modeSwitch" title="Quick：一句话自动生成 · Collab：多轮深度协作"><button class="mode-btn active" data-mode="quick" id="modeBtnQuick"><i class="fas fa-bolt"></i> Quick</button><button class="mode-btn" data-mode="collab" id="modeBtnCollab"><i class="fas fa-comments"></i> Collab</button></div>
+            </div>
+            <div class="topbar-center"><div class="topbar-custom-tools" id="topbarCustomTools"><button class="topbar-btn" data-tool="layout" title="布局工具"><i class="fas fa-crosshairs"></i><span>布局</span></button><button class="topbar-btn" data-tool="skills" title="技能商店"><i class="fas fa-puzzle-piece"></i><span>技能</span></button><button class="topbar-btn topbar-add-tool-btn" id="btnAddTool" title="添加自定义工具"><i class="fas fa-plus"></i></button></div></div>
+            <div class="topbar-right"><button class="topbar-btn topbar-versions-btn" id="btnVersionsToggle" title="版本历史"><i class="fas fa-code-branch"></i><span>版本</span></button><button class="topbar-publish-btn" id="btnPublish" title="发布"><i class="fas fa-rocket"></i><span>发布</span></button></div>
+        </header>
+        <div class="main-body">
+            <nav class="conv-sidebar" id="convSidebar"><div class="conv-sidebar-header"><span class="conv-sidebar-header-title">聊天</span><div class="conv-sidebar-header-actions"><button class="conv-sidebar-header-btn" id="btnReviewToggle" title="评审区"><i class="fas fa-clipboard-check"></i><span class="review-badge-dot" id="reviewBadgeDot"></span></button></div></div><div class="conv-sidebar-items" id="convGroupItems"></div><button class="conv-sidebar-add" id="btnNewConv" title="新建聊天"><i class="fas fa-plus"></i><span>新建聊天</span></button></nav>
+            <aside class="chat-panel" id="chatPanel">
+                <div class="chat-panel-header" id="chatPanelHeader"><span class="chat-panel-title" id="chatPanelTitle">团队群聊</span></div>
+                <div class="chat-header" id="chatHeader" style="display:none;"><div class="chat-header-left"><button class="chat-back-btn" id="chatBackBtn"><i class="fas fa-chevron-left"></i> 群聊</button><div class="chat-agent-info" id="chatAgentInfo"><h3 class="chat-title" id="chatTitle"></h3></div></div></div>
+                <div class="chat-messages" id="chatMessages"><div class="welcome-screen" id="welcomeScreen"></div></div>
+                <div class="task-progress-bar" id="taskProgressBar" style="display:none;"><div class="task-progress-header" id="taskProgressHeader"><div class="tp-header-left"><i class="fas fa-tasks tp-header-icon"></i><span class="tp-header-title">任务进度</span><span class="tp-header-summary" id="tpHeaderSummary"></span></div><button class="tp-toggle-btn" id="tpToggleBtn" title="展开/收起"><i class="fas fa-chevron-up" id="tpToggleIcon"></i></button></div><div class="tp-collapsed-row" id="tpCollapsedRow"></div><div class="task-progress-body" id="taskProgressBody" style="display:none;"><div class="task-progress-agents" id="taskProgressAgents"></div></div></div>
+                <div class="chat-input-wrapper"><div class="chat-input-container" id="chatInputContainer">
+                    <div class="mention-dropdown" id="mentionDropdown" style="display:none;"></div>
+                    <div class="input-tools"><button class="btn-icon btn-upload" id="btnUpload" title="上传素材"><i class="fas fa-paperclip"></i></button><button class="btn-icon btn-reference" id="btnReference" title="参考游戏"><i class="fas fa-link"></i></button><input type="file" id="fileInput" multiple accept="image/*,audio/*,.json,.js,.css,.html" style="display:none;"><div class="uploaded-files" id="uploadedFiles"></div><div class="image-attach-preview" id="imageAttachPreview" style="display:none;"></div></div>
+                    <div class="coords-reference-bar" id="coordsRefBar" style="display:none;"><div class="coords-ref-content"><i class="fas fa-crosshairs"></i><span id="coordsRefText"></span></div><button class="coords-ref-remove" id="btnRemoveRef"><i class="fas fa-xmark"></i></button></div>
+                    <div class="asset-token-bar" id="assetTokenBar"></div>
+                    <div class="input-row"><textarea class="chat-input" id="chatInput" placeholder="描述你想要的游戏... 输入 @ 指定Agent" rows="1"></textarea><div class="input-actions"><button class="btn-pause" id="btnPause" title="暂停任务" style="display:none;"><i class="fas fa-pause"></i></button><button class="btn-send" id="btnSend" title="发送"><i class="fas fa-arrow-up"></i></button></div></div>
+                    <div class="input-hint"><span id="inputHintText">Enter 发送 · Shift+Enter 换行 · @ 指定Agent</span></div>
+                </div></div>
+            </aside>
+            <div class="resize-handle resize-handle-left" id="resizeHandleLeft"><div class="resize-handle-line"></div></div>
+            <main class="review-panel collapsed" id="reviewPanel"><div class="review-header"><div class="review-tabs" id="reviewTabs"></div><button class="review-collapse-btn" id="reviewCollapseBtn" title="收起评审区"><i class="fas fa-chevron-left"></i></button></div><div class="review-content" id="reviewContent"><div class="review-welcome" id="reviewWelcome"><div class="review-welcome-icon"><i class="fas fa-trophy"></i></div><p class="review-welcome-title">成果橱窗</p><span class="review-welcome-desc">团队的每一份产出都会在这里展示</span><div class="review-welcome-cards" id="reviewWelcomeCards"><div class="review-welcome-card"><i class="fas fa-file-lines" style="color:#6366F1"></i><span>策划文档</span></div><div class="review-welcome-card"><i class="fas fa-palette" style="color:#EC4899"></i><span>设计稿</span></div><div class="review-welcome-card"><i class="fas fa-music" style="color:#06B6D4"></i><span>音效素材</span></div><div class="review-welcome-card"><i class="fas fa-code" style="color:#10B981"></i><span>代码产物</span></div></div></div></div></main>
+            <div class="resize-handle resize-handle-right" id="resizeHandleRight"><div class="resize-handle-line"></div></div>
+            <section class="preview-panel" id="previewPanel">
+                <div class="preview-toolbar"><div class="preview-toolbar-left"><div class="device-dropdown" id="deviceDropdown"><button class="device-dropdown-trigger" id="deviceDropdownTrigger"><i class="fas fa-mobile-screen-button" id="deviceDropdownIcon"></i><span id="deviceDropdownLabel">iPhone 14</span><span class="device-size-tag" id="deviceSizeLabel">390×844</span><i class="fas fa-chevron-down device-dropdown-arrow"></i></button><div class="device-dropdown-menu" id="deviceDropdownMenu"></div></div></div><div class="preview-toolbar-right"><button class="preview-tool-btn error-indicator" id="btnErrorIndicator" title="预览区报错" style="display:none;"><i class="fas fa-bug"></i><span class="error-count" id="errorCount">0</span></button><button class="preview-tool-btn" id="btnRefreshPreview" title="刷新"><i class="fas fa-rotate-right"></i></button><button class="preview-tool-btn" id="btnFullscreen" title="全屏"><i class="fas fa-expand"></i></button><div class="layout-mode-toggle" id="layoutModeToggle" style="display:none;"><span class="layout-mode-label">布局模式</span><button class="layout-toggle-btn active" id="btnLayoutToggle"><i class="fas fa-crosshairs"></i> 开启中</button></div></div></div>
+                <div class="preview-viewport" id="previewViewport">
+                    <div class="asset-dock" id="assetDock"><button class="asset-dock-toggle" id="assetDockToggle" title="素材库"><i class="fas fa-images"></i></button><div class="asset-dock-panel" id="assetDockPanel"><div class="asset-dock-header"><div class="asset-dock-header-info"><span class="asset-dock-title">素材列表</span><span class="asset-dock-subtitle" id="assetDockSubtitle"></span></div><button class="asset-dock-close" id="assetDockClose"><i class="fas fa-xmark"></i></button></div><div class="asset-dock-search"><i class="fas fa-search"></i><input type="text" placeholder="搜索素材..." id="assetSearchInput"></div><div class="asset-dock-categories"><button class="asset-cat-btn active" data-cat="all">全部</button><button class="asset-cat-btn" data-cat="character">角色</button><button class="asset-cat-btn" data-cat="bg">背景</button><button class="asset-cat-btn" data-cat="ui">UI</button><button class="asset-cat-btn" data-cat="fx">特效</button><button class="asset-cat-btn" data-cat="audio">音效</button></div><div class="asset-dock-grid" id="assetDockGrid"></div><div class="asset-dock-hint">点击素材定位画布 · 悬停替换</div></div></div>
+                    <div class="device-frame" id="deviceFrame"><div class="device-notch" id="deviceNotch"><div class="notch-bar"></div></div><div class="device-screen" id="deviceScreen"><div class="preview-content" id="previewContent"><div class="preview-placeholder" id="previewPlaceholder"><div class="preview-placeholder-icon"><i class="fas fa-gamepad"></i></div><div class="preview-placeholder-text">生成后在此处预览</div><div class="preview-placeholder-hint">在左侧输入你的创意，AI 团队将为你生成游戏</div></div></div></div><div class="device-home-bar" id="deviceHomeBar"><div class="home-indicator"></div></div></div>
+                </div>
+                <div class="error-panel" id="errorPanel" style="display:none;"><div class="error-panel-header"><span><i class="fas fa-bug"></i> 预览错误</span><div class="error-panel-actions"><button class="error-fix-all-btn" id="btnFixAllErrors" title="一键修复所有错误"><i class="fas fa-wrench"></i> 一键修复</button><button class="error-clear-btn" id="btnClearErrors" title="清空"><i class="fas fa-trash"></i></button><button class="error-close-btn" id="btnCloseErrorPanel"><i class="fas fa-xmark"></i></button></div></div><div class="error-panel-list" id="errorPanelList"></div></div>
+                <div class="pixel-overlay" id="pixelOverlay" style="display:none;"><canvas class="pixel-canvas" id="pixelCanvas"></canvas></div>
+                <div class="layout-exit-overlay" id="layoutExitOverlay" style="display:none;"><button class="layout-exit-btn" id="btnExitLayout"><i class="fas fa-xmark"></i> 退出布局模式</button></div>
+                <div class="layout-floating-panel" id="layoutFloatingPanel" style="display:none;"><div class="layout-float-header"><i class="fas fa-crosshairs"></i><span class="layout-float-title">坐标标记</span><span class="layout-float-count" id="layoutFloatingCount">点击屏幕标记坐标</span></div><div class="layout-float-tags" id="layoutFloatingTags"></div><div class="layout-float-actions"><button class="layout-float-btn" id="btnFloatClear"><i class="fas fa-trash"></i> 清除</button><button class="layout-float-btn primary" id="btnFloatSend"><i class="fas fa-quote-right"></i> 引用到对话</button></div></div>
+                <div class="pixel-coords-bar" id="pixelCoordsBar" style="display:none;"><div class="coords-info"><span class="coords-label">已标记坐标:</span><div class="coords-tags" id="coordsTags"></div></div><div class="coords-actions"><button class="coords-btn" id="btnClearCoords" title="清除标记"><i class="fas fa-trash"></i> 清除</button><button class="coords-btn primary" id="btnSendCoords" title="引用到对话"><i class="fas fa-quote-right"></i> 引用到对话</button></div></div>
+                <div class="versions-drawer" id="versionsDrawer"><div class="versions-drawer-header"><h3><i class="fas fa-code-branch"></i> 版本历史</h3><div class="versions-drawer-actions"><button class="btn-save-version-sm" id="btnSaveVersion"><i class="fas fa-plus"></i> 保存</button><button class="versions-drawer-close" id="btnCloseVersions"><i class="fas fa-xmark"></i></button></div></div><div class="versions-timeline" id="versionsTimeline"><div class="version-empty"><i class="fas fa-code-branch"></i><p>暂无版本记录</p><span>每次修改后保存版本，可随时回滚</span></div></div></div>
+                <div class="skills-drawer" id="skillsDrawer"><div class="skills-drawer-header"><h3><i class="fas fa-puzzle-piece"></i> 技能</h3><button class="skills-drawer-close" id="btnCloseSkills"><i class="fas fa-xmark"></i></button></div><div class="skills-search"><i class="fas fa-search"></i><input type="text" placeholder="搜索技能..." id="skillsSearchInput"></div><div class="skills-categories"><button class="skill-cat-btn active" data-cat="all">全部</button><button class="skill-cat-btn" data-cat="art">美术</button><button class="skill-cat-btn" data-cat="code">编程</button><button class="skill-cat-btn" data-cat="audio">音效</button><button class="skill-cat-btn" data-cat="tool">工具</button></div><div class="skills-list" id="skillsList"></div><div class="skills-footer"><span>💡 技能为你的工作区增加超能力</span></div></div>
+            </section>
+        </div>
+    </div>
+    <div class="modal-overlay" id="newSessionModal" style="display:none;"><div class="modal-container session-modal"><div class="modal-header"><h3>新建聊天</h3><button class="btn-icon modal-close" id="btnCloseNewSession"><i class="fas fa-xmark"></i></button></div><div class="modal-body"><div class="session-form"><div class="conv-group-form" id="convGroupForm"><div class="form-group"><label class="form-label">聊天名称</label><input class="form-input" id="convGroupName" placeholder="如：糖果贪吃蛇"></div><label class="form-label">选择参与角色（可单选或多选）</label><div class="role-grid" id="roleGrid"></div></div><div class="form-group" style="margin-top:12px;"><label class="form-label">关联项目</label><select class="form-input project-selector" id="projectSelector"><option value="">🆕 新建项目（发消息时自动创建）</option></select></div><button class="btn-create-session" id="btnCreateSession"><i class="fas fa-plus"></i> 创建聊天</button></div></div></div></div>
+    <div class="modal-overlay" id="fullscreenModal" style="display:none;"><div class="fullscreen-preview"><div class="fullscreen-header"><h3>游戏预览</h3><button class="btn-icon" id="btnExitFullscreen"><i class="fas fa-compress"></i></button></div><div class="fullscreen-content" id="fullscreenContent"></div></div></div>
+    <div class="image-preview-overlay" id="imagePreviewOverlay" style="display:none;"><img id="imagePreviewImg" src="" alt=""><div class="image-preview-close"><i class="fas fa-xmark"></i></div></div>
+    <div class="modal-overlay" id="saveVersionModal" style="display:none;"><div class="modal-container small-modal"><div class="modal-header"><h3>保存版本</h3><button class="btn-icon modal-close" id="btnCloseSaveVersion"><i class="fas fa-xmark"></i></button></div><div class="modal-body"><div class="form-group"><label class="form-label">版本备注</label><input class="form-input" id="versionNote" placeholder="如：完成基础玩法"></div><button class="btn-create-session" id="btnConfirmSaveVersion"><i class="fas fa-check"></i> 保存</button></div></div></div>
+    <div class="global-confirm-toast" id="globalConfirmToast" style="display:none;"><div class="confirm-toast-content"><i class="fas fa-bell confirm-toast-icon"></i><span class="confirm-toast-text" id="confirmToastText"></span><button class="confirm-toast-btn" id="confirmToastBtn">查看</button><button class="confirm-toast-close" id="confirmToastClose"><i class="fas fa-xmark"></i></button></div></div>
+    <!-- Extra DOM elements required by app.js (no ID conflicts with dynamic elements) -->
+    <div id="assetDockCleanup" style="display:none;"></div>
+    <iframe id="gamePreviewIframe" style="display:none;"></iframe>
+    <div id="newMsgIndicator" style="display:none;"></div>
+    <div id="phaseIndicator" style="display:none;"></div>
+    <div id="previewLoading" style="display:none;"></div>
+    <div id="projectListPanel" style="display:none;"></div>
+    <span id="reviewBadge" style="display:none;"></span>
+    <div id="selectedElement" style="display:none;"></div>
+    <div id="tpPlanCard" style="display:none;"></div>
+    <div id="btnCleanupAssets" style="display:none;"></div>
+
+    <script>
+    // Debug: capture and display JS errors
+    window.onerror = function(msg, url, line, col, err) {
+        var d = document.createElement('div');
+        d.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:99999;background:red;color:white;padding:12px;font:14px monospace;white-space:pre-wrap;';
+        d.textContent = 'JS ERROR: ' + msg + '\nFile: ' + (url||'').split('/').pop() + ' Line:' + line + '\n' + (err&&err.stack?err.stack:'');
+        document.body.appendChild(d);
+    };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/lib/marked.umd.js"></script>
+    <script src="app.js?v=20260401v21"></script>
+</body>
+</html>

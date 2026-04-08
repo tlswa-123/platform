@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>游戏共创社区 - WeCreat</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+@charset "UTF-8";
+/* ========================================
+   WeCreat Community Page Styles
+   ======================================== */
+
+:root {
+    --bg-primary: #0e0e1a;
+    --bg-secondary: #161622;
+    --bg-card: #1e1e30;
+    --text-primary: #eaeaea;
+    --text-secondary: #b0b0c0;
+    --text-muted: #666680;
+    --accent: #6366F1;
+    --border: rgba(255,255,255,0.06);
+    --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* ===== Nav ===== */
+.comm-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    height: 56px;
+    background: rgba(14,14,26,0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+}
+.comm-nav-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.comm-nav-back {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+}
+.comm-nav-back:hover { background: rgba(255,255,255,0.08); color: var(--text-primary); }
+.comm-nav-logo { font-size: 20px; color: var(--accent); }
+.comm-nav-brand { font-size: 16px; font-weight: 600; }
+.comm-nav-right { display: flex; align-items: center; gap: 10px; }
+.comm-nav-btn {
+    padding: 7px 16px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-secondary);
+    font-size: 13px;
+    cursor: pointer;
+    display: flex; align-items: center; gap: 6px;
+    transition: all 0.2s;
+}
+.comm-nav-btn:hover { background: rgba(255,255,255,0.06); color: var(--text-primary); }
+.comm-nav-btn.primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+}
+.comm-nav-btn.primary:hover { filter: brightness(1.15); }
+.comm-nav-avatar {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: var(--accent);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 600; color: #fff;
+}
+
+/* ===== Main ===== */
+.comm-main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px 60px;
+}
+
+/* ===== Banner ===== */
+.comm-banner {
+    position: relative;
+    border-radius: 18px;
+    overflow: hidden;
+    margin: 20px 0;
+    padding: 48px 40px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+}
+.comm-banner-bg {
+    position: absolute; inset: 0;
+    overflow: hidden;
+}
+.banner-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.4;
+    animation: orbFloat 8s ease-in-out infinite alternate;
+}
+.orb-a { width: 300px; height: 300px; background: #6366F1; top: -60px; left: -40px; }
+.orb-b { width: 250px; height: 250px; background: #EC4899; bottom: -60px; right: 10%; animation-delay: -3s; }
+.orb-c { width: 200px; height: 200px; background: #06B6D4; top: 20%; right: -30px; animation-delay: -5s; }
+@keyframes orbFloat {
+    from { transform: translateY(0) scale(1); }
+    to { transform: translateY(-20px) scale(1.08); }
+}
+.comm-banner-content { position: relative; z-index: 1; }
+.comm-banner-content h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+.comm-banner-content p { font-size: 15px; color: var(--text-secondary); margin-bottom: 24px; }
+.comm-banner-stats { display: flex; gap: 36px; }
+.banner-stat { display: flex; flex-direction: column; }
+.stat-num { font-size: 24px; font-weight: 700; color: var(--accent); }
+.stat-label { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+
+/* ===== Tabs ===== */
+.comm-tabs {
+    display: flex;
+    gap: 4px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 24px;
+    position: sticky;
+    top: 56px;
+    z-index: 50;
+    background: var(--bg-primary);
+}
+.comm-tab {
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: none;
+    background: transparent;
+    color: var(--text-muted);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex; align-items: center; gap: 8px;
+    transition: all 0.2s;
+}
+.comm-tab:hover { background: rgba(255,255,255,0.04); color: var(--text-secondary); }
+.comm-tab.active { background: rgba(99,102,241,0.12); color: #a5b4fc; }
+.comm-tab i { font-size: 13px; }
+.comm-tab-panel { display: none; }
+.comm-tab-panel.active { display: block; }
+
+/* ===== Section ===== */
+.comm-section { margin-bottom: 36px; }
+.comm-section-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 16px;
+}
+.comm-section-header h2 { font-size: 18px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+.comm-section-sub { font-size: 13px; color: var(--text-muted); }
+
+/* ===== Game Cards ===== */
+.game-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 16px;
+}
+.game-card {
+    background: var(--bg-card);
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+    transition: transform 0.25s var(--ease-out), box-shadow 0.25s;
+}
+.game-card:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(0,0,0,0.4); }
+.game-card-thumb {
+    height: 140px;
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+    cursor: pointer;
+}
+.game-card-emoji { font-size: 52px; }
+.game-card-badge {
+    position: absolute; top: 10px; left: 10px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 11px; font-weight: 600;
+}
+.game-card-badge.hot { background: rgba(245,158,11,0.2); color: #fbbf24; }
+.game-card-badge.new { background: rgba(99,102,241,0.2); color: #a5b4fc; }
+.game-card-badge.bounty { background: rgba(236,72,153,0.2); color: #f472b6; }
+.game-card-play-overlay {
+    position: absolute; inset: 0;
+    background: rgba(0,0,0,0.5);
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0;
+    transition: opacity 0.2s;
+    font-size: 28px; color: #fff;
+}
+.game-card-thumb:hover .game-card-play-overlay { opacity: 1; }
+.game-card-body { padding: 14px; }
+.game-card-title { font-size: 15px; font-weight: 600; margin-bottom: 8px; }
+.game-card-info { display: flex; gap: 12px; font-size: 12px; color: var(--text-muted); margin-bottom: 8px; }
+.game-card-info i { margin-right: 3px; }
+.game-card-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+.game-tag {
+    padding: 3px 10px; border-radius: 20px;
+    font-size: 11px; background: rgba(255,255,255,0.04);
+    color: var(--text-secondary); border: 1px solid var(--border);
+}
+.game-card-actions { display: flex; gap: 6px; }
+.game-action-btn {
+    flex: 1; padding: 7px 0;
+    border-radius: 8px; border: 1px solid var(--border);
+    background: transparent; color: var(--text-secondary);
+    font-size: 12px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; gap: 4px;
+    transition: all 0.2s;
+}
+.game-action-btn:hover { background: rgba(255,255,255,0.06); color: var(--text-primary); }
+.game-action-btn.collab { border-color: rgba(99,102,241,0.3); color: #a5b4fc; }
+.game-action-btn.collab:hover { background: rgba(99,102,241,0.1); }
+.game-action-btn.like:hover { color: #f472b6; border-color: rgba(236,72,153,0.3); }
+
+/* ===== Pitch Cards ===== */
+.pitch-list { display: flex; flex-direction: column; gap: 10px; }
+.pitch-card {
+    display: flex; align-items: center; gap: 14px;
+    padding: 16px 18px;
+    background: var(--bg-card);
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    transition: border-color 0.2s;
+}
+.pitch-card:hover { border-color: rgba(255,255,255,0.12); }
+.pitch-avatar {
+    width: 40px; height: 40px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; font-weight: 600; color: #fff; flex-shrink: 0;
+}
+.pitch-content { flex: 1; }
+.pitch-text { font-size: 14px; font-style: italic; color: var(--text-primary); line-height: 1.5; margin-bottom: 6px; }
+.pitch-meta { font-size: 12px; color: var(--text-muted); display: flex; gap: 8px; }
+.pitch-play-btn {
+    width: 40px; height: 40px; border-radius: 50%;
+    border: none; background: var(--accent);
+    color: #fff; font-size: 14px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: transform 0.2s;
+}
+.pitch-play-btn:hover { transform: scale(1.1); }
+
+/* ===== Bounty ===== */
+.bounty-filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+.bounty-filter {
+    padding: 6px 14px; border-radius: 20px;
+    border: 1px solid var(--border); background: transparent;
+    color: var(--text-secondary); font-size: 13px; cursor: pointer;
+    transition: all 0.2s;
+}
+.bounty-filter:hover { background: rgba(255,255,255,0.04); }
+.bounty-filter.active { background: rgba(99,102,241,0.12); color: #a5b4fc; border-color: rgba(99,102,241,0.3); }
+.bounty-list { display: flex; flex-direction: column; gap: 12px; }
+.bounty-card {
+    display: flex; align-items: flex-start; gap: 16px;
+    padding: 18px 20px;
+    background: var(--bg-card);
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+.bounty-card:hover { border-color: rgba(255,255,255,0.1); box-shadow: 0 4px 16px rgba(0,0,0,0.3); }
+.bounty-reward {
+    display: flex; flex-direction: column; align-items: center;
+    min-width: 70px; padding: 10px; border-radius: 10px;
+    background: rgba(245,158,11,0.08); flex-shrink: 0;
+}
+.reward-amount { font-size: 24px; font-weight: 700; color: #fbbf24; }
+.reward-unit { font-size: 11px; color: var(--text-muted); }
+.reward-badge {
+    margin-top: 6px; padding: 2px 8px; border-radius: 10px;
+    font-size: 10px; font-weight: 500;
+}
+.reward-badge.platform { background: rgba(99,102,241,0.15); color: #a5b4fc; }
+.reward-badge.user { background: rgba(236,72,153,0.15); color: #f472b6; }
+.bounty-info { flex: 1; }
+.bounty-title { font-size: 15px; font-weight: 600; margin-bottom: 6px; line-height: 1.4; }
+.bounty-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 10px; }
+.bounty-meta { display: flex; gap: 16px; font-size: 12px; color: var(--text-muted); }
+.bounty-meta i { margin-right: 4px; }
+.bounty-join-btn {
+    padding: 10px 20px; border-radius: 10px;
+    border: none; background: var(--accent);
+    color: #fff; font-size: 13px; font-weight: 500;
+    cursor: pointer; white-space: nowrap;
+    display: flex; align-items: center; gap: 6px;
+    transition: filter 0.2s;
+    align-self: center;
+}
+.bounty-join-btn:hover { filter: brightness(1.15); }
+
+/* ===== Collab ===== */
+.collab-list { display: flex; flex-direction: column; gap: 14px; }
+.collab-card {
+    display: flex; gap: 18px; padding: 20px;
+    background: var(--bg-card);
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    transition: border-color 0.2s;
+}
+.collab-card:hover { border-color: rgba(99,102,241,0.2); }
+.collab-thumb {
+    width: 72px; height: 72px; border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 36px; flex-shrink: 0;
+}
+.collab-info { flex: 1; }
+.collab-title { font-size: 16px; font-weight: 600; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.collab-open-tag {
+    font-size: 11px; padding: 2px 8px; border-radius: 10px;
+    background: rgba(16,185,129,0.12); color: #34d399; font-weight: 500;
+}
+.collab-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 10px; }
+.collab-contributors { display: flex; align-items: center; gap: 4px; margin-bottom: 8px; }
+.collab-avatar {
+    width: 26px; height: 26px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 600; color: #fff;
+    border: 2px solid var(--bg-card);
+    margin-right: -6px;
+}
+.collab-count { font-size: 12px; color: var(--text-muted); margin-left: 10px; }
+.collab-activity { display: flex; gap: 14px; font-size: 12px; color: var(--text-muted); }
+.collab-activity i { margin-right: 3px; color: var(--accent); }
+.collab-actions { display: flex; flex-direction: column; gap: 8px; align-self: center; }
+.collab-btn {
+    padding: 9px 18px; border-radius: 8px;
+    border: 1px solid var(--border); background: transparent;
+    color: var(--text-secondary); font-size: 13px;
+    cursor: pointer; white-space: nowrap;
+    display: flex; align-items: center; gap: 6px;
+    transition: all 0.2s;
+}
+.collab-btn:hover { background: rgba(255,255,255,0.06); }
+.collab-btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+.collab-btn.primary:hover { filter: brightness(1.15); }
+
+/* ===== Test Invite ===== */
+.test-invite-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+.test-card {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 18px;
+    background: var(--bg-card);
+    border-radius: 12px;
+    border: 1px solid var(--border);
+}
+.test-card-left { display: flex; align-items: center; gap: 14px; }
+.test-game-icon {
+    width: 48px; height: 48px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px;
+}
+.test-title { font-size: 14px; font-weight: 600; }
+.test-author { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+.test-card-right { display: flex; align-items: center; gap: 12px; }
+.test-method { display: flex; gap: 6px; }
+.test-method-tag {
+    padding: 4px 10px; border-radius: 16px;
+    font-size: 11px; background: rgba(255,255,255,0.04);
+    color: var(--text-secondary); border: 1px solid var(--border);
+    display: flex; align-items: center; gap: 4px;
+}
+.test-join-btn {
+    padding: 8px 16px; border-radius: 8px;
+    border: 1px solid rgba(16,185,129,0.3); background: rgba(16,185,129,0.08);
+    color: #34d399; font-size: 12px; cursor: pointer;
+    display: flex; align-items: center; gap: 5px;
+    transition: all 0.2s;
+}
+.test-join-btn:hover { background: rgba(16,185,129,0.15); }
+
+/* ===== Test Flow ===== */
+.test-flow-card {
+    padding: 20px 24px;
+    background: var(--bg-card);
+    border-radius: 14px;
+    border: 1px solid var(--border);
+}
+.test-flow-title { font-size: 14px; font-weight: 600; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+.test-flow-title i { color: var(--accent); }
+.test-flow-steps { display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; }
+.flow-step {
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    padding: 14px 18px; border-radius: 12px;
+    background: rgba(255,255,255,0.02); border: 1px solid var(--border);
+    min-width: 100px; text-align: center;
+}
+.flow-step-num {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--accent); color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 600;
+}
+.flow-step-text { font-size: 13px; font-weight: 500; line-height: 1.4; }
+.flow-step-text small { font-size: 11px; color: var(--text-muted); font-weight: 400; }
+.flow-arrow { color: var(--text-muted); font-size: 12px; }
+
+/* ===== Posts ===== */
+.post-filters { display: flex; gap: 4px; }
+.post-filter {
+    padding: 5px 14px; border-radius: 16px;
+    border: none; background: transparent;
+    color: var(--text-muted); font-size: 13px; cursor: pointer;
+    transition: all 0.2s;
+}
+.post-filter:hover { color: var(--text-secondary); }
+.post-filter.active { background: rgba(99,102,241,0.12); color: #a5b4fc; }
+.post-list { display: flex; flex-direction: column; gap: 14px; }
+.post-card {
+    padding: 18px 20px;
+    background: var(--bg-card);
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    transition: border-color 0.2s;
+}
+.post-card:hover { border-color: rgba(255,255,255,0.1); }
+.post-card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+.post-avatar {
+    width: 36px; height: 36px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 600; color: #fff; flex-shrink: 0;
+}
+.post-author-info { flex: 1; }
+.post-author { font-size: 14px; font-weight: 500; }
+.post-time { font-size: 12px; color: var(--text-muted); margin-left: 8px; }
+.post-tag {
+    padding: 3px 10px; border-radius: 16px;
+    font-size: 11px; font-weight: 500;
+}
+.post-tag.tutorial { background: rgba(99,102,241,0.12); color: #a5b4fc; }
+.post-tag.share { background: rgba(236,72,153,0.12); color: #f472b6; }
+.post-tag.discuss { background: rgba(16,185,129,0.12); color: #34d399; }
+.post-tag.show { background: rgba(245,158,11,0.12); color: #fbbf24; }
+.post-card-body { margin-bottom: 14px; }
+.post-title { font-size: 16px; font-weight: 600; margin-bottom: 8px; line-height: 1.4; }
+.post-excerpt { font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
+.post-images { display: flex; gap: 8px; margin-top: 12px; }
+.post-img-placeholder {
+    width: 120px; height: 80px; border-radius: 8px;
+    background: rgba(255,255,255,0.03); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--text-muted); font-size: 20px;
+}
+.post-card-footer { display: flex; gap: 4px; }
+.post-action {
+    flex: 1; padding: 8px 0;
+    border-radius: 8px; border: none; background: transparent;
+    color: var(--text-muted); font-size: 13px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+    transition: all 0.2s;
+}
+.post-action:hover { background: rgba(255,255,255,0.04); color: var(--text-secondary); }
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+    .comm-main { padding: 0 12px 40px; }
+    .comm-banner { padding: 30px 20px; }
+    .comm-banner-content h1 { font-size: 22px; }
+    .comm-banner-stats { gap: 20px; }
+    .game-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+    .bounty-card { flex-direction: column; }
+    .collab-card { flex-direction: column; }
+    .test-card { flex-direction: column; gap: 12px; }
+    .test-card-right { width: 100%; justify-content: space-between; }
+}
+
+</style>
+</head>
+<body>
+    <!-- 顶部导航 -->
+    <nav class="comm-nav">
+        <div class="comm-nav-left">
+            <a href="wecreat-app.html" class="comm-nav-back" title="返回首页"><i class="fas fa-chevron-left"></i></a>
+            <i class="fas fa-gamepad comm-nav-logo"></i>
+            <span class="comm-nav-brand">游戏共创社区</span>
+        </div>
+        <div class="comm-nav-right">
+            <button class="comm-nav-btn" id="btnPublishPost"><i class="fas fa-pen-to-square"></i> 发帖</button>
+            <button class="comm-nav-btn primary" id="btnPublishGame"><i class="fas fa-rocket"></i> 发布游戏</button>
+            <div class="comm-nav-avatar">Z</div>
+        </div>
+    </nav>
+
+    <!-- 主内容区 -->
+    <div class="comm-main">
+        <!-- ===== 顶部 Banner ===== -->
+        <section class="comm-banner">
+            <div class="comm-banner-bg">
+                <div class="banner-orb orb-a"></div>
+                <div class="banner-orb orb-b"></div>
+                <div class="banner-orb orb-c"></div>
+            </div>
+            <div class="comm-banner-content">
+                <h1>游戏共创社区</h1>
+                <p>和全球创作者一起做游戏、测游戏、玩游戏</p>
+                <div class="comm-banner-stats">
+                    <div class="banner-stat"><span class="stat-num">2,847</span><span class="stat-label">创作者</span></div>
+                    <div class="banner-stat"><span class="stat-num">1,203</span><span class="stat-label">游戏作品</span></div>
+                    <div class="banner-stat"><span class="stat-num">15,692</span><span class="stat-label">次游玩</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== Tab 导航 ===== -->
+        <div class="comm-tabs" id="commTabs">
+            <button class="comm-tab active" data-tab="discover"><i class="fas fa-fire"></i> 发现</button>
+            <button class="comm-tab" data-tab="bounty"><i class="fas fa-bullhorn"></i> 悬赏大厅</button>
+            <button class="comm-tab" data-tab="collab"><i class="fas fa-users"></i> 共创空间</button>
+            <button class="comm-tab" data-tab="posts"><i class="fas fa-newspaper"></i> 社区帖子</button>
+        </div>
+
+        <!-- ===== Tab: 发现 ===== -->
+        <div class="comm-tab-panel active" id="tabDiscover">
+            <!-- 热门推荐 -->
+            <div class="comm-section">
+                <div class="comm-section-header">
+                    <h2><i class="fas fa-fire" style="color:#f59e0b;"></i> 热门游戏</h2>
+                    <span class="comm-section-sub">本周最多人玩</span>
+                </div>
+                <div class="game-grid" id="hotGamesGrid">
+                    <!-- Mock 游戏卡片 -->
+                    <div class="game-card">
+                        <div class="game-card-thumb" style="background:linear-gradient(135deg,#0f0c29,#302b63);">
+                            <span class="game-card-emoji">🚀</span>
+                            <span class="game-card-badge hot">🔥 热门</span>
+                            <div class="game-card-play-overlay"><i class="fas fa-play"></i></div>
+                        </div>
+                        <div class="game-card-body">
+                            <div class="game-card-title">太空射击大作战</div>
+                            <div class="game-card-info">
+                                <span class="game-card-author"><i class="fas fa-user"></i> Alex</span>
+                                <span class="game-card-plays"><i class="fas fa-gamepad"></i> 3,421 次</span>
+                            </div>
+                            <div class="game-card-tags">
+                                <span class="game-tag">射击</span><span class="game-tag">像素</span><span class="game-tag">开放共创</span>
+                            </div>
+                            <div class="game-card-actions">
+                                <button class="game-action-btn"><i class="fas fa-play"></i> 试玩</button>
+                                <button class="game-action-btn collab"><i class="fas fa-code-branch"></i> 共创</button>
+                                <button class="game-action-btn like"><i class="fas fa-heart"></i> 342</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="game-card">
+                        <div class="game-card-thumb" style="background:linear-gradient(135deg,#f093fb,#f5576c);">
+                            <span class="game-card-emoji">🐱</span>
+                            <span class="game-card-badge new">✨ 新品</span>
+                            <div class="game-card-play-overlay"><i class="fas fa-play"></i></div>
+                        </div>
+                        <div class="game-card-body">
+                            <div class="game-card-title">像素猫咪跑酷</div>
+                            <div class="game-card-info">
+                                <span class="game-card-author"><i class="fas fa-user"></i> Miko</span>
+                                <span class="game-card-plays"><i class="fas fa-gamepad"></i> 2,108 次</span>
+                            </div>
+                            <div class="game-card-tags">
+                                <span class="game-tag">跑酷</span><span class="game-tag">卡通</span><span class="game-tag">求测试</span>
+                            </div>
+                            <div class="game-card-actions">
+                                <button class="game-action-btn"><i class="fas fa-play"></i> 试玩</button>
+                                <button class="game-action-btn collab"><i class="fas fa-code-branch"></i> 共创</button>
+                                <button class="game-action-btn like"><i class="fas fa-heart"></i> 218</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="game-card">
+                        <div class="game-card-thumb" style="background:linear-gradient(135deg,#a18cd1,#fbc2eb);">
+                            <span class="game-card-emoji">🍬</span>
+                            <div class="game-card-play-overlay"><i class="fas fa-play"></i></div>
+                        </div>
+                        <div class="game-card-body">
+                            <div class="game-card-title">糖果消消乐</div>
+                            <div class="game-card-info">
+                                <span class="game-card-author"><i class="fas fa-user"></i> 小甜</span>
+                                <span class="game-card-plays"><i class="fas fa-gamepad"></i> 1,876 次</span>
+                            </div>
+                            <div class="game-card-tags">
+                                <span class="game-tag">消除</span><span class="game-tag">可爱</span>
+                            </div>
+                            <div class="game-card-actions">
+                                <button class="game-action-btn"><i class="fas fa-play"></i> 试玩</button>
+                                <button class="game-action-btn collab"><i class="fas fa-code-branch"></i> 共创</button>
+                                <button class="game-action-btn like"><i class="fas fa-heart"></i> 189</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="game-card">
+                        <div class="game-card-thumb" style="background:linear-gradient(135deg,#667eea,#764ba2);">
+                            <span class="game-card-emoji">🎵</span>
+                            <span class="game-card-badge bounty">💰 悬赏中</span>
+                            <div class="game-card-play-overlay"><i class="fas fa-play"></i></div>
+                        </div>
+                        <div class="game-card-body">
+                            <div class="game-card-title">音乐节拍挑战</div>
+                            <div class="game-card-info">
+                                <span class="game-card-author"><i class="fas fa-user"></i> Beat</span>
+                                <span class="game-card-plays"><i class="fas fa-gamepad"></i> 987 次</span>
+                            </div>
+                            <div class="game-card-tags">
+                                <span class="game-tag">音游</span><span class="game-tag">赛博</span><span class="game-tag">求美术</span>
+                            </div>
+                            <div class="game-card-actions">
+                                <button class="game-action-btn"><i class="fas fa-play"></i> 试玩</button>
+                                <button class="game-action-btn collab"><i class="fas fa-code-branch"></i> 共创</button>
+                                <button class="game-action-btn like"><i class="fas fa-heart"></i> 127</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 一句话自荐 -->
+            <div class="comm-section">
+                <div class="comm-section-header">
+                    <h2><i class="fas fa-bullhorn" style="color:#ec4899;"></i> 一句话自荐</h2>
+                    <span class="comm-section-sub">创作者用一句话打动你</span>
+                </div>
+                <div class="pitch-list">
+                    <div class="pitch-card">
+                        <div class="pitch-avatar" style="background:#6366F1;">A</div>
+                        <div class="pitch-content">
+                            <div class="pitch-text">"如果你喜欢《太空侵略者》，这款会让你感受到童年街机厅的快乐"</div>
+                            <div class="pitch-meta"><span>太空射击大作战</span> · <span>Alex</span> · <span>3,421 次游玩</span></div>
+                        </div>
+                        <button class="pitch-play-btn"><i class="fas fa-play"></i></button>
+                    </div>
+                    <div class="pitch-card">
+                        <div class="pitch-avatar" style="background:#EC4899;">M</div>
+                        <div class="pitch-content">
+                            <div class="pitch-text">"一只像素猫的无尽奔跑，简单到3岁小孩会玩，但你未必能过第5关"</div>
+                            <div class="pitch-meta"><span>像素猫咪跑酷</span> · <span>Miko</span> · <span>2,108 次游玩</span></div>
+                        </div>
+                        <button class="pitch-play-btn"><i class="fas fa-play"></i></button>
+                    </div>
+                    <div class="pitch-card">
+                        <div class="pitch-avatar" style="background:#F59E0B;">T</div>
+                        <div class="pitch-content">
+                            <div class="pitch-text">"我做了个坦克大战但加入了 RTS 元素，急需人来帮我测平衡性"</div>
+                            <div class="pitch-meta"><span>坦克大战2026</span> · <span>Tank</span> · <span>悬赏测试中</span></div>
+                        </div>
+                        <button class="pitch-play-btn"><i class="fas fa-play"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== Tab: 悬赏大厅 ===== -->
+        <div class="comm-tab-panel" id="tabBounty">
+            <div class="comm-section">
+                <div class="comm-section-header">
+                    <h2><i class="fas fa-coins" style="color:#f59e0b;"></i> 悬赏任务</h2>
+                    <span class="comm-section-sub">帮助其他创作者，获得奖励</span>
+                </div>
+                <div class="bounty-filters">
+                    <button class="bounty-filter active">全部</button>
+                    <button class="bounty-filter">🎮 测试体验</button>
+                    <button class="bounty-filter">🎨 美术优化</button>
+                    <button class="bounty-filter">🐛 修Bug</button>
+                    <button class="bounty-filter">🧩 新关卡/玩法</button>
+                    <button class="bounty-filter">🎭 皮肤设计</button>
+                </div>
+                <div class="bounty-list">
+                    <div class="bounty-card">
+                        <div class="bounty-reward"><span class="reward-amount">50</span><span class="reward-unit">积分</span><span class="reward-badge platform">平台补贴</span></div>
+                        <div class="bounty-info">
+                            <div class="bounty-title">🎮 【测试体验】太空射击大作战 — 帮我测试第3关BOSS战的难度</div>
+                            <div class="bounty-desc">需要5位玩家完整通关并反馈：BOSS血量是否合理、弹幕密度、道具掉率。玩完后一键吐槽即可，AI会自动汇总。</div>
+                            <div class="bounty-meta">
+                                <span><i class="fas fa-user"></i> Alex</span>
+                                <span><i class="fas fa-clock"></i> 3天后截止</span>
+                                <span><i class="fas fa-users"></i> 2/5 已参与</span>
+                            </div>
+                        </div>
+                        <button class="bounty-join-btn"><i class="fas fa-hand-pointer"></i> 接单</button>
+                    </div>
+                    <div class="bounty-card">
+                        <div class="bounty-reward"><span class="reward-amount">100</span><span class="reward-unit">积分</span><span class="reward-badge user">作者悬赏</span></div>
+                        <div class="bounty-info">
+                            <div class="bounty-title">🎨 【美术优化】音乐节拍挑战 — 需要赛博朋克风格的UI重设计</div>
+                            <div class="bounty-desc">当前UI太简陋，需要专业美术帮忙设计：主界面、游戏HUD、结算界面。有参考图，接单后进入共创空间协作。</div>
+                            <div class="bounty-meta">
+                                <span><i class="fas fa-user"></i> Beat</span>
+                                <span><i class="fas fa-clock"></i> 7天后截止</span>
+                                <span><i class="fas fa-users"></i> 1/3 已参与</span>
+                            </div>
+                        </div>
+                        <button class="bounty-join-btn"><i class="fas fa-hand-pointer"></i> 接单</button>
+                    </div>
+                    <div class="bounty-card">
+                        <div class="bounty-reward"><span class="reward-amount">80</span><span class="reward-unit">积分</span><span class="reward-badge platform">平台补贴</span></div>
+                        <div class="bounty-info">
+                            <div class="bounty-title">🐛 【修Bug】像素猫咪跑酷 — iOS上偶现闪退，需要排查</div>
+                            <div class="bounty-desc">在iPhone 14 Pro上玩到第4关经常闪退，怀疑是内存泄漏。需要有经验的开发者帮忙定位，可进入共创空间直接改代码。</div>
+                            <div class="bounty-meta">
+                                <span><i class="fas fa-user"></i> Miko</span>
+                                <span><i class="fas fa-clock"></i> 5天后截止</span>
+                                <span><i class="fas fa-users"></i> 0/2 已参与</span>
+                            </div>
+                        </div>
+                        <button class="bounty-join-btn"><i class="fas fa-hand-pointer"></i> 接单</button>
+                    </div>
+                    <div class="bounty-card">
+                        <div class="bounty-reward"><span class="reward-amount">150</span><span class="reward-unit">积分</span><span class="reward-badge user">作者悬赏</span></div>
+                        <div class="bounty-info">
+                            <div class="bounty-title">🧩 【新关卡】糖果消消乐 — 设计3个有创意的特殊关卡</div>
+                            <div class="bounty-desc">游戏核心机制已完成，需要关卡设计师帮忙：冰冻关（限时消除）、彩虹关（颜色变化）、BOSS关（消除攻击BOSS）。</div>
+                            <div class="bounty-meta">
+                                <span><i class="fas fa-user"></i> 小甜</span>
+                                <span><i class="fas fa-clock"></i> 10天后截止</span>
+                                <span><i class="fas fa-users"></i> 3/5 已参与</span>
+                            </div>
+                        </div>
+                        <button class="bounty-join-btn"><i class="fas fa-hand-pointer"></i> 接单</button>
+                    </div>
+                    <div class="bounty-card">
+                        <div class="bounty-reward"><span class="reward-amount">200</span><span class="reward-unit">积分</span><span class="reward-badge user">作者悬赏</span></div>
+                        <div class="bounty-info">
+                            <div class="bounty-title">🎭 【皮肤设计】太空射击大作战 — 设计3套战机皮肤</div>
+                            <div class="bounty-desc">需要3套不同主题的战机皮肤：赛博朋克、蒸汽朋克、星际海盗。每套包含战机+子弹+尾焰特效，像素风格。</div>
+                            <div class="bounty-meta">
+                                <span><i class="fas fa-user"></i> Alex</span>
+                                <span><i class="fas fa-clock"></i> 14天后截止</span>
+                                <span><i class="fas fa-users"></i> 1/3 已参与</span>
+                            </div>
+                        </div>
+                        <button class="bounty-join-btn"><i class="fas fa-hand-pointer"></i> 接单</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== Tab: 共创空间 ===== -->
+        <div class="comm-tab-panel" id="tabCollab">
+            <div class="comm-section">
+                <div class="comm-section-header">
+                    <h2><i class="fas fa-users" style="color:#6366f1;"></i> 开放共创游戏</h2>
+                    <span class="comm-section-sub">这些游戏欢迎所有人参与改进</span>
+                </div>
+                <div class="collab-list">
+                    <div class="collab-card">
+                        <div class="collab-thumb" style="background:linear-gradient(135deg,#0f0c29,#302b63);">🚀</div>
+                        <div class="collab-info">
+                            <div class="collab-title">太空射击大作战 <span class="collab-open-tag">🔓 完全开放</span></div>
+                            <div class="collab-desc">所有代码、美术、音效资源均开放，任何人可以 Fork 后修改或直接提交改进建议</div>
+                            <div class="collab-contributors">
+                                <span class="collab-avatar" style="background:#6366F1;">A</span>
+                                <span class="collab-avatar" style="background:#EC4899;">M</span>
+                                <span class="collab-avatar" style="background:#10B981;">K</span>
+                                <span class="collab-avatar" style="background:#F59E0B;">+5</span>
+                                <span class="collab-count">8 位共创者</span>
+                            </div>
+                            <div class="collab-activity">
+                                <span><i class="fas fa-code-branch"></i> 12次修改</span>
+                                <span><i class="fas fa-layer-group"></i> 3个关卡包</span>
+                                <span><i class="fas fa-palette"></i> 5套皮肤</span>
+                            </div>
+                        </div>
+                        <div class="collab-actions">
+                            <button class="collab-btn primary"><i class="fas fa-code-branch"></i> 加入共创</button>
+                            <button class="collab-btn"><i class="fas fa-play"></i> 试玩</button>
+                        </div>
+                    </div>
+                    <div class="collab-card">
+                        <div class="collab-thumb" style="background:linear-gradient(135deg,#f093fb,#f5576c);">🐱</div>
+                        <div class="collab-info">
+                            <div class="collab-title">像素猫咪跑酷 <span class="collab-open-tag">🔑 部分开放</span></div>
+                            <div class="collab-desc">关卡设计和美术资源开放，核心代码需要作者审批后合并</div>
+                            <div class="collab-contributors">
+                                <span class="collab-avatar" style="background:#EC4899;">M</span>
+                                <span class="collab-avatar" style="background:#06B6D4;">L</span>
+                                <span class="collab-avatar" style="background:#F59E0B;">+2</span>
+                                <span class="collab-count">4 位共创者</span>
+                            </div>
+                            <div class="collab-activity">
+                                <span><i class="fas fa-code-branch"></i> 7次修改</span>
+                                <span><i class="fas fa-layer-group"></i> 2个关卡包</span>
+                            </div>
+                        </div>
+                        <div class="collab-actions">
+                            <button class="collab-btn primary"><i class="fas fa-code-branch"></i> 加入共创</button>
+                            <button class="collab-btn"><i class="fas fa-play"></i> 试玩</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 玩家测试邀请 -->
+            <div class="comm-section">
+                <div class="comm-section-header">
+                    <h2><i class="fas fa-vial" style="color:#10b981;"></i> 邀请测试</h2>
+                    <span class="comm-section-sub">这些游戏正在征集测试玩家</span>
+                </div>
+                <div class="test-invite-list">
+                    <div class="test-card">
+                        <div class="test-card-left">
+                            <div class="test-game-icon" style="background:linear-gradient(135deg,#2d3436,#636e72);">🎮</div>
+                            <div class="test-info">
+                                <div class="test-title">坦克大战2026</div>
+                                <div class="test-author">Tank · 需要 5 位测试员</div>
+                            </div>
+                        </div>
+                        <div class="test-card-right">
+                            <div class="test-method">
+                                <span class="test-method-tag"><i class="fas fa-robot"></i> AI测试</span>
+                                <span class="test-method-tag"><i class="fas fa-user"></i> 真人测试</span>
+                            </div>
+                            <button class="test-join-btn"><i class="fas fa-gamepad"></i> 参与测试</button>
+                        </div>
+                    </div>
+                    <div class="test-card">
+                        <div class="test-card-left">
+                            <div class="test-game-icon" style="background:linear-gradient(135deg,#f12711,#f5af19);">🏎️</div>
+                            <div class="test-info">
+                                <div class="test-title">复古赛车狂飙</div>
+                                <div class="test-author">Racer · 需要 3 位测试员</div>
+                            </div>
+                        </div>
+                        <div class="test-card-right">
+                            <div class="test-method">
+                                <span class="test-method-tag"><i class="fas fa-user"></i> 真人测试</span>
+                            </div>
+                            <button class="test-join-btn"><i class="fas fa-gamepad"></i> 参与测试</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 测试反馈流程说明 -->
+                <div class="test-flow-card">
+                    <div class="test-flow-title"><i class="fas fa-route"></i> 测试反馈流程</div>
+                    <div class="test-flow-steps">
+                        <div class="flow-step"><div class="flow-step-num">1</div><div class="flow-step-text">试玩游戏<br><small>记录游玩数据</small></div></div>
+                        <div class="flow-arrow"><i class="fas fa-chevron-right"></i></div>
+                        <div class="flow-step"><div class="flow-step-num">2</div><div class="flow-step-text">一键吐槽<br><small>打字或语音反馈</small></div></div>
+                        <div class="flow-arrow"><i class="fas fa-chevron-right"></i></div>
+                        <div class="flow-step"><div class="flow-step-num">3</div><div class="flow-step-text">AI 汇总<br><small>整理所有反馈</small></div></div>
+                        <div class="flow-arrow"><i class="fas fa-chevron-right"></i></div>
+                        <div class="flow-step"><div class="flow-step-num">4</div><div class="flow-step-text">自动优化<br><small>AI 辅助修改</small></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== Tab: 社区帖子 ===== -->
+        <div class="comm-tab-panel" id="tabPosts">
+            <div class="comm-section">
+                <div class="comm-section-header">
+                    <h2><i class="fas fa-newspaper" style="color:#06b6d4;"></i> 社区帖子</h2>
+                    <div class="post-filters">
+                        <button class="post-filter active">最新</button>
+                        <button class="post-filter">最热</button>
+                        <button class="post-filter">精华</button>
+                    </div>
+                </div>
+                <div class="post-list">
+                    <div class="post-card">
+                        <div class="post-card-header">
+                            <div class="post-avatar" style="background:#6366F1;">A</div>
+                            <div class="post-author-info">
+                                <span class="post-author">Alex</span>
+                                <span class="post-time">2小时前</span>
+                            </div>
+                            <span class="post-tag tutorial">📖 教程</span>
+                        </div>
+                        <div class="post-card-body">
+                            <h3 class="post-title">【教程】如何用 WeCreat 30 分钟做出一款射击游戏</h3>
+                            <p class="post-excerpt">分享一下我做「太空射击大作战」的完整过程。从一句话描述到可玩原型，其实没有想象中那么难。关键是先把核心玩法跑通...</p>
+                            <div class="post-images">
+                                <div class="post-img-placeholder"><i class="fas fa-image"></i></div>
+                                <div class="post-img-placeholder"><i class="fas fa-image"></i></div>
+                            </div>
+                        </div>
+                        <div class="post-card-footer">
+                            <button class="post-action"><i class="fas fa-heart"></i> 86</button>
+                            <button class="post-action"><i class="fas fa-comment"></i> 23</button>
+                            <button class="post-action"><i class="fas fa-share"></i> 分享</button>
+                            <button class="post-action"><i class="fas fa-bookmark"></i> 收藏</button>
+                        </div>
+                    </div>
+                    <div class="post-card">
+                        <div class="post-card-header">
+                            <div class="post-avatar" style="background:#EC4899;">M</div>
+                            <div class="post-author-info">
+                                <span class="post-author">Miko</span>
+                                <span class="post-time">5小时前</span>
+                            </div>
+                            <span class="post-tag share">💡 心得</span>
+                        </div>
+                        <div class="post-card-body">
+                            <h3 class="post-title">像素美术的 5 个实用技巧，让你的游戏角色更有辨识度</h3>
+                            <p class="post-excerpt">做像素猫咪跑酷时积累的一些经验：1) 先用大色块定轮廓；2) 动作帧不超过4帧就够流畅；3) 颜色控制在8色以内...</p>
+                        </div>
+                        <div class="post-card-footer">
+                            <button class="post-action"><i class="fas fa-heart"></i> 142</button>
+                            <button class="post-action"><i class="fas fa-comment"></i> 37</button>
+                            <button class="post-action"><i class="fas fa-share"></i> 分享</button>
+                            <button class="post-action"><i class="fas fa-bookmark"></i> 收藏</button>
+                        </div>
+                    </div>
+                    <div class="post-card">
+                        <div class="post-card-header">
+                            <div class="post-avatar" style="background:#10B981;">K</div>
+                            <div class="post-author-info">
+                                <span class="post-author">KCode</span>
+                                <span class="post-time">昨天</span>
+                            </div>
+                            <span class="post-tag discuss">🗣️ 讨论</span>
+                        </div>
+                        <div class="post-card-body">
+                            <h3 class="post-title">大家觉得 AI 生成的游戏音效质量怎么样？有没有比较好的替代方案？</h3>
+                            <p class="post-excerpt">最近在做一个节奏游戏，发现 AI 生成的 BGM 节奏感还行，但音效总感觉少了点"打击感"。有没有大佬推荐其他方式？</p>
+                        </div>
+                        <div class="post-card-footer">
+                            <button class="post-action"><i class="fas fa-heart"></i> 54</button>
+                            <button class="post-action"><i class="fas fa-comment"></i> 41</button>
+                            <button class="post-action"><i class="fas fa-share"></i> 分享</button>
+                            <button class="post-action"><i class="fas fa-bookmark"></i> 收藏</button>
+                        </div>
+                    </div>
+                    <div class="post-card">
+                        <div class="post-card-header">
+                            <div class="post-avatar" style="background:#F59E0B;">T</div>
+                            <div class="post-author-info">
+                                <span class="post-author">Tank</span>
+                                <span class="post-time">2天前</span>
+                            </div>
+                            <span class="post-tag show">🎮 秀作品</span>
+                        </div>
+                        <div class="post-card-body">
+                            <h3 class="post-title">坦克大战2026 更新日志：加入了 RTS 模式！</h3>
+                            <p class="post-excerpt">终于把 RTS 元素加进去了！现在你可以建造基地、生产坦克编队、进攻敌方阵地。平衡性还需要调，欢迎来测试吐槽！</p>
+                            <div class="post-images">
+                                <div class="post-img-placeholder"><i class="fas fa-image"></i></div>
+                            </div>
+                        </div>
+                        <div class="post-card-footer">
+                            <button class="post-action"><i class="fas fa-heart"></i> 98</button>
+                            <button class="post-action"><i class="fas fa-comment"></i> 29</button>
+                            <button class="post-action"><i class="fas fa-share"></i> 分享</button>
+                            <button class="post-action"><i class="fas fa-bookmark"></i> 收藏</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    // Tab switching
+    document.querySelectorAll('.comm-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            document.querySelectorAll('.comm-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.comm-tab-panel').forEach(p => p.classList.remove('active'));
+            tab.classList.add('active');
+            const targetId = 'tab' + tab.dataset.tab.charAt(0).toUpperCase() + tab.dataset.tab.slice(1);
+            const panel = document.getElementById(targetId);
+            if (panel) panel.classList.add('active');
+        });
+    });
+    // Bounty filters
+    document.querySelectorAll('.bounty-filter').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.bounty-filter').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        });
+    });
+    // Post filters
+    document.querySelectorAll('.post-filter').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.post-filter').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        });
+    });
+    </script>
+</body>
+</html>

@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>资产库 - WeCreat</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+@charset "UTF-8";
+/* WeCreat Asset Library */
+:root { --primary:#07C160; --primary-light:rgba(7,193,96,0.08); --primary-glow:rgba(7,193,96,0.2); --bg-primary:#EDEDED; --bg-secondary:#F7F7F7; --bg-white:#FFF; --text-primary:#191919; --text-secondary:#888; --text-tertiary:#B2B2B2; --border-light:#E5E5E5; --border-lighter:#F0F0F0; --radius-sm:6px; --radius-md:10px; --radius-lg:16px; --shadow-sm:0 1px 3px rgba(0,0,0,0.06); --shadow-md:0 4px 12px rgba(0,0,0,0.08); --shadow-lg:0 8px 30px rgba(0,0,0,0.12); --ease-out:cubic-bezier(0.25,0.46,0.45,0.94); }
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC',sans-serif;background:var(--bg-primary);color:var(--text-primary);min-height:100vh;}
+
+/* Nav */
+.al-nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;gap:16px;padding:0 24px;height:56px;background:rgba(255,255,255,0.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--border-lighter);}
+.al-nav-left{display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.al-nav-back{width:32px;height:32px;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;color:var(--text-secondary);text-decoration:none;transition:background 0.15s;}
+.al-nav-back:hover{background:var(--bg-secondary);}
+.al-nav-logo{font-size:20px;color:var(--primary);}
+.al-nav-brand{font-size:16px;font-weight:600;}
+.al-nav-search{flex:1;max-width:480px;display:flex;align-items:center;gap:8px;padding:0 14px;height:36px;background:var(--bg-secondary);border:1px solid var(--border-lighter);border-radius:var(--radius-md);transition:border-color 0.2s;}
+.al-nav-search:focus-within{border-color:var(--primary);}
+.al-nav-search i{color:var(--text-tertiary);font-size:13px;}
+.al-nav-search input{flex:1;border:none;background:none;outline:none;font-size:13px;color:var(--text-primary);}
+.al-nav-right{display:flex;align-items:center;gap:8px;margin-left:auto;}
+.al-nav-btn{padding:7px 16px;border-radius:var(--radius-sm);border:1px solid var(--border-light);background:var(--bg-white);color:var(--text-secondary);font-size:13px;cursor:pointer;display:flex;align-items:center;gap:6px;transition:all 0.15s;}
+.al-nav-btn:hover{background:var(--bg-secondary);color:var(--text-primary);}
+
+/* Layout */
+.al-main{display:flex;max-width:1200px;margin:0 auto;padding:20px;gap:20px;}
+.al-sidebar{width:200px;flex-shrink:0;position:sticky;top:76px;align-self:flex-start;max-height:calc(100vh - 96px);overflow-y:auto;}
+.al-content{flex:1;min-width:0;}
+
+/* Filter */
+.al-filter-group{margin-bottom:18px;}
+.al-filter-title{font-size:12px;font-weight:600;color:var(--text-secondary);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.3px;}
+.al-filter-tags{display:flex;flex-wrap:wrap;gap:4px;}
+.al-ftag{padding:4px 10px;border-radius:16px;border:1px solid var(--border-lighter);background:var(--bg-white);color:var(--text-secondary);font-size:11px;cursor:pointer;transition:all 0.15s;display:inline-flex;align-items:center;gap:4px;}
+.al-ftag:hover{border-color:var(--border-light);color:var(--text-primary);}
+.al-ftag.active{background:var(--primary-light);border-color:var(--primary-light);color:var(--primary);font-weight:500;}
+.al-ftag i{font-size:10px;}
+
+/* Section */
+.al-section{margin-bottom:32px;}
+.al-section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.al-section-header h2{font-size:17px;font-weight:600;display:flex;align-items:center;gap:8px;}
+.al-section-sub{font-size:12px;color:var(--text-secondary);}
+
+/* Ref cards (classic game reference) */
+.al-ref-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;}
+.al-ref-card{background:var(--bg-white);border:1px solid var(--border-lighter);border-radius:var(--radius-md);overflow:hidden;transition:box-shadow 0.2s,transform 0.2s;cursor:pointer;}
+.al-ref-card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px);}
+.al-ref-thumb{height:90px;display:flex;align-items:center;justify-content:center;}
+.al-ref-info{padding:10px 12px 6px;}
+.al-ref-name{font-size:13px;font-weight:600;margin-bottom:4px;}
+.al-ref-tags{display:flex;gap:4px;}
+.al-ref-tags span{font-size:10px;padding:1px 6px;border-radius:8px;background:var(--bg-secondary);color:var(--text-secondary);}
+.al-ref-btn{width:100%;padding:8px;border:none;border-top:1px solid var(--border-lighter);background:transparent;color:var(--primary);font-size:12px;font-weight:500;cursor:pointer;transition:background 0.15s;}
+.al-ref-btn:hover{background:var(--primary-light);}
+
+/* Asset grid */
+.al-asset-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;}
+.al-asset-card{background:var(--bg-white);border:1px solid var(--border-lighter);border-radius:var(--radius-md);overflow:hidden;transition:box-shadow 0.2s,transform 0.2s;}
+.al-asset-card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px);}
+.al-asset-card.wide{grid-column:span 2;}
+.al-asset-thumb{height:110px;display:flex;align-items:center;justify-content:center;position:relative;font-size:40px;}
+.al-asset-thumb.wide{height:90px;}
+.al-asset-thumb.al-3d{background:linear-gradient(135deg,#0f172a,#1e293b);}
+.al-asset-anim-badge,.al-asset-3d-badge{position:absolute;top:8px;right:8px;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:500;display:flex;align-items:center;gap:3px;}
+.al-asset-anim-badge{background:rgba(99,102,241,0.15);color:#6366F1;}
+.al-asset-3d-badge{background:rgba(236,72,153,0.15);color:#EC4899;}
+.al-asset-body{padding:10px 12px 8px;}
+.al-asset-name{font-size:13px;font-weight:600;margin-bottom:3px;}
+.al-asset-meta{font-size:10px;color:var(--text-secondary);margin-bottom:6px;}
+.al-asset-tags{display:flex;gap:4px;}
+.al-asset-tags span{font-size:9px;padding:1px 6px;border-radius:8px;background:var(--bg-secondary);color:var(--text-secondary);}
+.al-asset-actions{display:flex;gap:4px;padding:0 12px 10px;}
+.al-asset-btn{width:32px;height:32px;border-radius:var(--radius-sm);border:1px solid var(--border-lighter);background:var(--bg-white);color:var(--text-secondary);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:12px;transition:all 0.15s;}
+.al-asset-btn:hover{background:var(--bg-secondary);color:var(--text-primary);}
+.al-asset-btn.primary{background:var(--primary-light);color:var(--primary);border-color:var(--primary-light);}
+.al-asset-btn.primary:hover{background:var(--primary-glow);}
+
+/* Audio grid */
+.al-audio-grid{display:flex;flex-direction:column;gap:8px;}
+.al-audio-card{display:flex;align-items:center;gap:12px;padding:12px 16px;background:var(--bg-white);border:1px solid var(--border-lighter);border-radius:var(--radius-md);transition:box-shadow 0.15s;}
+.al-audio-card:hover{box-shadow:var(--shadow-sm);}
+.al-audio-icon{font-size:24px;flex-shrink:0;}
+.al-audio-info{flex:1;}
+.al-audio-name{font-size:13px;font-weight:600;}
+.al-audio-meta{font-size:11px;color:var(--text-secondary);margin-top:1px;}
+.al-audio-play{width:36px;height:36px;border-radius:50%;border:none;background:var(--bg-secondary);color:var(--text-primary);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;transition:background 0.15s;}
+.al-audio-play:hover{background:var(--primary-light);color:var(--primary);}
+
+/* Responsive */
+@media(max-width:768px){
+    .al-main{flex-direction:column;}
+    .al-sidebar{width:100%;position:static;max-height:none;}
+    .al-filter-tags{overflow-x:auto;flex-wrap:nowrap;padding-bottom:4px;}
+    .al-asset-grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));}
+    .al-asset-card.wide{grid-column:span 1;}
+    .al-ref-grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr));}
+}
+
+</style>
+</head>
+<body>
+    <!-- 顶部导航 -->
+    <nav class="al-nav">
+        <div class="al-nav-left">
+            <a href="wecreat-app.html" class="al-nav-back"><i class="fas fa-chevron-left"></i></a>
+            <i class="fas fa-box-open al-nav-logo"></i>
+            <span class="al-nav-brand">资产库</span>
+        </div>
+        <div class="al-nav-search">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="搜索资产... 如「像素战机」「卡通背景」" id="alSearchInput">
+        </div>
+        <div class="al-nav-right">
+            <button class="al-nav-btn" id="btnUploadAsset"><i class="fas fa-cloud-arrow-up"></i> 上传资产</button>
+        </div>
+    </nav>
+
+    <div class="al-main">
+        <!-- ===== 侧边筛选栏 ===== -->
+        <aside class="al-sidebar">
+            <div class="al-filter-group">
+                <div class="al-filter-title">资产类型</div>
+                <div class="al-filter-tags" id="filterType">
+                    <button class="al-ftag active" data-v="all">全部</button>
+                    <button class="al-ftag" data-v="character"><i class="fas fa-user"></i> 角色</button>
+                    <button class="al-ftag" data-v="bg"><i class="fas fa-image"></i> 背景</button>
+                    <button class="al-ftag" data-v="ui"><i class="fas fa-icons"></i> UI</button>
+                    <button class="al-ftag" data-v="fx"><i class="fas fa-burst"></i> 特效</button>
+                    <button class="al-ftag" data-v="audio"><i class="fas fa-music"></i> 音效</button>
+                    <button class="al-ftag" data-v="3d"><i class="fas fa-cube"></i> 3D模型</button>
+                    <button class="al-ftag" data-v="tilemap"><i class="fas fa-border-all"></i> 地图块</button>
+                </div>
+            </div>
+            <div class="al-filter-group">
+                <div class="al-filter-title">美术风格</div>
+                <div class="al-filter-tags" id="filterStyle">
+                    <button class="al-ftag active" data-v="all">全部</button>
+                    <button class="al-ftag" data-v="pixel">像素</button>
+                    <button class="al-ftag" data-v="cartoon">卡通</button>
+                    <button class="al-ftag" data-v="flat">扁平</button>
+                    <button class="al-ftag" data-v="cyber">赛博朋克</button>
+                    <button class="al-ftag" data-v="cute">可爱</button>
+                    <button class="al-ftag" data-v="retro">复古</button>
+                    <button class="al-ftag" data-v="realistic">写实</button>
+                </div>
+            </div>
+            <div class="al-filter-group">
+                <div class="al-filter-title">维度</div>
+                <div class="al-filter-tags" id="filterDim">
+                    <button class="al-ftag active" data-v="all">全部</button>
+                    <button class="al-ftag" data-v="2d">2D</button>
+                    <button class="al-ftag" data-v="3d">3D</button>
+                </div>
+            </div>
+            <div class="al-filter-group">
+                <div class="al-filter-title">动态类型</div>
+                <div class="al-filter-tags" id="filterAnim">
+                    <button class="al-ftag active" data-v="all">全部</button>
+                    <button class="al-ftag" data-v="static">静态</button>
+                    <button class="al-ftag" data-v="animated">带动画</button>
+                    <button class="al-ftag" data-v="spritesheet">Sprite Sheet</button>
+                </div>
+            </div>
+            <div class="al-filter-group">
+                <div class="al-filter-title">来源</div>
+                <div class="al-filter-tags" id="filterSource">
+                    <button class="al-ftag active" data-v="all">全部</button>
+                    <button class="al-ftag" data-v="official">🏆 官方精选</button>
+                    <button class="al-ftag" data-v="community">👥 社区上传</button>
+                    <button class="al-ftag" data-v="ai">🤖 AI生成</button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- ===== 主内容区 ===== -->
+        <div class="al-content">
+            <!-- 经典游戏参考 -->
+            <section class="al-section">
+                <div class="al-section-header">
+                    <h2><i class="fas fa-gamepad" style="color:#F59E0B;"></i> 经典游戏参考</h2>
+                    <span class="al-section-sub">参考经典，一键获取同风格资产包</span>
+                </div>
+                <div class="al-ref-grid">
+                    <div class="al-ref-card">
+                        <div class="al-ref-thumb" style="background:linear-gradient(135deg,#1a1a2e,#16213e);">
+                            <span style="font-size:36px;">🚀</span>
+                        </div>
+                        <div class="al-ref-info">
+                            <div class="al-ref-name">太空侵略者</div>
+                            <div class="al-ref-tags"><span>射击</span><span>像素</span><span>复古</span></div>
+                        </div>
+                        <button class="al-ref-btn">获取资产包</button>
+                    </div>
+                    <div class="al-ref-card">
+                        <div class="al-ref-thumb" style="background:linear-gradient(135deg,#2d5016,#4a7c27);">
+                            <span style="font-size:36px;">🐍</span>
+                        </div>
+                        <div class="al-ref-info">
+                            <div class="al-ref-name">贪吃蛇</div>
+                            <div class="al-ref-tags"><span>益智</span><span>简约</span><span>经典</span></div>
+                        </div>
+                        <button class="al-ref-btn">获取资产包</button>
+                    </div>
+                    <div class="al-ref-card">
+                        <div class="al-ref-thumb" style="background:linear-gradient(135deg,#4a0e8f,#7c3aed);">
+                            <span style="font-size:36px;">👾</span>
+                        </div>
+                        <div class="al-ref-info">
+                            <div class="al-ref-name">合金弹头</div>
+                            <div class="al-ref-tags"><span>动作</span><span>像素</span><span>街机</span></div>
+                        </div>
+                        <button class="al-ref-btn">获取资产包</button>
+                    </div>
+                    <div class="al-ref-card">
+                        <div class="al-ref-thumb" style="background:linear-gradient(135deg,#065f46,#10b981);">
+                            <span style="font-size:36px;">🌾</span>
+                        </div>
+                        <div class="al-ref-info">
+                            <div class="al-ref-name">星露谷物语</div>
+                            <div class="al-ref-tags"><span>模拟</span><span>像素</span><span>可爱</span></div>
+                        </div>
+                        <button class="al-ref-btn">获取资产包</button>
+                    </div>
+                    <div class="al-ref-card">
+                        <div class="al-ref-thumb" style="background:linear-gradient(135deg,#7f1d1d,#dc2626);">
+                            <span style="font-size:36px;">⛰️</span>
+                        </div>
+                        <div class="al-ref-info">
+                            <div class="al-ref-name">Celeste</div>
+                            <div class="al-ref-tags"><span>平台</span><span>像素</span><span>精致</span></div>
+                        </div>
+                        <button class="al-ref-btn">获取资产包</button>
+                    </div>
+                    <div class="al-ref-card">
+                        <div class="al-ref-thumb" style="background:linear-gradient(135deg,#1e3a5f,#3b82f6);">
+                            <span style="font-size:36px;">🏎️</span>
+                        </div>
+                        <div class="al-ref-info">
+                            <div class="al-ref-name">赛车经典</div>
+                            <div class="al-ref-tags"><span>竞速</span><span>3D</span><span>写实</span></div>
+                        </div>
+                        <button class="al-ref-btn">获取资产包</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2D 角色资产 -->
+            <section class="al-section">
+                <div class="al-section-header">
+                    <h2><i class="fas fa-user" style="color:#6366F1;"></i> 2D 角色</h2>
+                    <span class="al-section-sub">像素角色 · 卡通人物 · Sprite Sheet 动画</span>
+                </div>
+                <div class="al-asset-grid">
+                    <div class="al-asset-card"><div class="al-asset-thumb" style="background:#1a1a2e;"><span>🚀</span><div class="al-asset-anim-badge"><i class="fas fa-film"></i> 4帧</div></div><div class="al-asset-body"><div class="al-asset-name">像素战机</div><div class="al-asset-meta">32×32 · 像素 · Sprite Sheet</div><div class="al-asset-tags"><span>角色</span><span>射击</span></div></div><div class="al-asset-actions"><button class="al-asset-btn primary"><i class="fas fa-download"></i></button><button class="al-asset-btn"><i class="fas fa-eye"></i></button></div></div>
+                    <div class="al-asset-card"><div class="al-asset-thumb" style="background:#2d1b69;"><span>👾</span><div class="al-asset-anim-badge"><i class="fas fa-film"></i> 2帧</div></div><div class="al-asset-body"><div class="al-asset-name">像素外星人</div><div class="al-asset-meta">24×24 · 像素 · 动画</div><div class="al-asset-tags"><span>角色</span><span>敌人</span></div></div><div class="al-asset-actions"><button class="al-asset-btn primary"><i class="fas fa-download"></i></button><button class="al-asset-btn"><i class="fas fa-eye"></i></button></div></div>
+                    <div class="al-asset-card"><div class="al-asset-thumb" style="background:#065f46;"><span>🧝</span></div><div class="al-asset-body"><div class="al-asset-name">卡通冒险者</div><div class="al-asset-meta">48×48 · 卡通 · 8方向</div><div class="al-asset-tags"><span>角色</span><span>RPG</span></div></div><div class="al-asset-actions"><button class="al-asset-btn primary"><i class="fas fa-download"></i></button><button class="al-asset-btn"><i class="fas fa-eye"></i></button></div></div>
+                    <div class="al-asset-card"><div class="al-asset-thumb" style="background:#7f1d1d;"><span>🥷</span><div class="al-asset-anim-badge"><i class="fas fa-film"></i> 6帧</div></div><div class="al-asset-body"><div class="al-asset-name">忍者角色</div><div class="al-asset-meta">32×32 · 像素 · 跑跳攻击</div><div class="al-asset-tags"><span>角色</span><span>动作</span></div></div><div class="al-asset-actions"><button class="al-asset-btn primary"><i class="fas fa-download"></i></button><button class="al-asset-btn"><i class="fas fa-eye"></i></button></div></div>
+                    <div class="al-asset-card"><div class="al-asset-thumb" style="background:#4a3728;"><span>🐱</span><div class="al-asset-anim-badge"><i class="fas fa-film"></i> 4帧</div></div><div class="al-asset-body"><div class="al-asset-name">像素猫咪</div><div class="al-asset-meta">24×24 · 可爱 · 跑步动画</div><div class="al-asset-tags"><span>角色</span><span>跑酷</span></div></div><div class="al-asset-actions"><button class="al-asset-btn primary"><i class="fas fa-download"></i></button><button class="al-asset-btn"><i class="fas fa-eye"></i></button></div></div>
+                    <div class="al-asset-card"><div class="al-asset-thumb" style="background:#1e3a5f;"><span>🤖</span></div><div class="al-asset-body"><div class="al-asset-name">赛博机器人</div><div class="al-asset-meta">48×64 · 赛博朋克 · 静态</div><div class="al-asset-tags"><span>角色</span><span>科幻</span></div></div><div class="al-asset-actions"><button class="al-asset-btn primary"><i class="fas fa-download"></i></button><button class="al-asset-btn"><i class="fas fa-eye"></i></button></div></div>
+                </div>
+            </section>
+
+            <!-- 3D 模型 -->
+            <section class="al-section">
+                <div class="al-section-header">
+                    <h2><i class="fas fa-cube" style="color:#EC4899;"></i> 3D 模型</h2>
+                    <span class="al-section-sub">低多边形 · 卡通 · 写实模型</span>
+                </div>
+                <div class="al-asset-grid">
+                    <div class="al-asset-card"><div class="al-asset-thumb al-3d" style="background:linear-gradient(135deg,#0f172a,#1e293b);"><span>🏠</span><div class="al-asset-3d-badge"><i class="fas fa-cube"></i> 3D</div></div><div class="al-asset-body"><div class="al-asset-name">低模小屋</div><div class="al-asset-meta">Low Poly · 卡通 · .glb</div><div class="al-asset-tags"><span>建筑</span><span>场景</span></div></div><div class="al-asset-actions"><button class="al-asset-btn primary"><i class="fas fa-download"></i></button><button class="al-asset-btn"><i class="fas fa-eye"></i></button></div></div>
+                    <div class="al-asset-card"><div class="al-asset-thumb al-3d" style="background:linear-gradient(135deg,#1a0533,#4c1d95);"><span>⚔️</span><div class="al-asset-3d-badge"><i class="fas fa-cube"></i> 3D</div></div><div class="al-asset-body"><div class="al-asset-name">武器包</div><div class="al-asset-meta">剑/弓/杖 ×5 · .glb</div><div class="al-asset-tags"><span>道具</span><span>RPG</span></div></div><div class="al-asset-actions"><button class="al-asset-btn primary"><i class="fas fa-download"></i></button><button class="al-asset-btn"><i class="fas fa-eye"></i></button></div></div>
+                    <div class="al-asset-card"><div class="al-asset-thumb al-3d" style="background:linear-gradient(135deg,#052e16,#166534);"><span>🌳</span><div class="al-asset-3d-badge"><i class="fas fa-cube"></i> 3D</div></div><div class="al-asset-body"><div class="al-asset-name">自然环境包</div><div class="al-asset-meta">树/石/草 ×12 · Low Poly</div><div class="al-asset-tags"><span>场景</span><span>自然</span></div></div><div class="al-asset-actions"><button class="al-asset-btn primary"><i class="fas fa-download"></i></button><button class="al-asset-btn"><i class="fas fa-eye"></i></button></div></div>
+                    <div class="al-asset-card"><div class="al-asset-thumb al-3d" style="background:linear-gradient(135deg,#172554,#1d4ed8);"><span>🚗</span><div class="al-asset-3d-badge"><i class="fas fa-cube"></i> 3D</div></div><div class="al-asset-body"><div class="al-asset-name">卡通车辆包</div><div class="al-asset-meta">轿车/卡车/巴士 ×6 · .glb</div><div class="al-asset-tags"><span>载具</span><span>竞速</span></div></div><div class="al-asset-actions"><button class="al-asset-btn primary"><i class="fas fa-download"></i></button><button class="al-asset-btn"><i class="fas fa-eye"></i></button></div></div>
+                </div>
+            </section>
+
+            <!-- UI 组件 -->
+            <section class="al-section">
+                <div class="al-section-header">
+                    <h2><i class="fas fa-icons" style="color:#06B6D4;"></i> UI 组件</h2>
+                    <span class="al-section-sub">按钮 · 面板 · 图标 · HUD 模板</span>
+                </div>
+                <div class="al-asset-grid">
+                    <div class="al-asset-card"><div class="al-asset-thumb" style="background:#0f172a;"><span>🎮</span></div><div class="al-asset-body"><div class="al-asset-name">像素游戏UI包</div><div class="al-asset-meta">按钮×8 面板×4 图标×16</div><div class="al-asset-tags"><span>UI</span><span>像素</span><span>完整套装</span></div></div><div class="al-asset-actions"><button class="al-asset-btn primary"><i class="fas fa-download"></i></button><button class="al-asset-btn"><i class="fas fa-eye"></i></button></div></div>
+                    <div class="al-asset-card"><div class="al-asset-thumb" style="background:#1e1b4b;"><span>📊</span></div><div class="al-asset-body"><div class="al-asset-name">HUD模板包</div><div class="al-asset-meta">血条 分数 小地图 弹药</div><div class="al-asset-tags"><span>UI</span><span>HUD</span></div></div><div class="al-asset-actions"><button class="al-asset-btn primary"><i class="fas fa-download"></i></button><button class="al-asset-btn"><i class="fas fa-eye"></i></button></div></div>
+                    <div class="al-asset-card"><div class="al-asset-thumb" style="background:#082f49;"><span>🪟</span></div><div class="al-asset-body"><div class="al-asset-name">对话框模板</div><div class="al-asset-meta">RPG对话 · 选项 · 气泡</div><div class="al-asset-tags"><span>UI</span><span>对话</span><span>RPG</span></div></div><div class="al-asset-actions"><button class="al-asset-btn primary"><i class="fas fa-download"></i></button><button class="al-asset-btn"><i class="fas fa-eye"></i></button></div></div>
+                    <div class="al-asset-card"><div class="al-asset-thumb" style="background:#3b0764;"><span>📱</span></div><div class="al-asset-body"><div class="al-asset-name">虚拟摇杆</div><div class="al-asset-meta">方向盘+按钮 · 移动端</div><div class="al-asset-tags"><span>UI</span><span>操控</span></div></div><div class="al-asset-actions"><button class="al-asset-btn primary"><i class="fas fa-download"></i></button><button class="al-asset-btn"><i class="fas fa-eye"></i></button></div></div>
+                </div>
+            </section>
+
+            <!-- 背景 & 特效 -->
+            <section class="al-section">
+                <div class="al-section-header">
+                    <h2><i class="fas fa-image" style="color:#10B981;"></i> 背景 & 特效</h2>
+                    <span class="al-section-sub">滚动背景 · 粒子特效 · 天气效果</span>
+                </div>
+                <div class="al-asset-grid">
+                    <div class="al-asset-card wide"><div class="al-asset-thumb wide" style="background:linear-gradient(180deg,#0f0c29,#302b63,#24243e);"><span>🌌</span></div><div class="al-asset-body"><div class="al-asset-name">太空星空背景</div><div class="al-asset-meta">无缝滚动 · 3层视差 · 像素</div><div class="al-asset-tags"><span>背景</span><span>太空</span><span>视差</span></div></div><div class="al-asset-actions"><button class="al-asset-btn primary"><i class="fas fa-download"></i></button><button class="al-asset-btn"><i class="fas fa-eye"></i></button></div></div>
+                    <div class="al-asset-card wide"><div class="al-asset-thumb wide" style="background:linear-gradient(180deg,#064e3b,#065f46,#047857);"><span>🌲</span></div><div class="al-asset-body"><div class="al-asset-name">森林场景背景</div><div class="al-asset-meta">无缝滚动 · 4层视差 · 卡通</div><div class="al-asset-tags"><span>背景</span><span>自然</span><span>视差</span></div></div><div class="al-asset-actions"><button class="al-asset-btn primary"><i class="fas fa-download"></i></button><button class="al-asset-btn"><i class="fas fa-eye"></i></button></div></div>
+                    <div class="al-asset-card"><div class="al-asset-thumb" style="background:#1c1917;"><span>💥</span><div class="al-asset-anim-badge"><i class="fas fa-film"></i> 8帧</div></div><div class="al-asset-body"><div class="al-asset-name">爆炸特效包</div><div class="al-asset-meta">小/中/大 ×3 · Sprite Sheet</div><div class="al-asset-tags"><span>特效</span><span>爆炸</span></div></div><div class="al-asset-actions"><button class="al-asset-btn primary"><i class="fas fa-download"></i></button><button class="al-asset-btn"><i class="fas fa-eye"></i></button></div></div>
+                    <div class="al-asset-card"><div class="al-asset-thumb" style="background:#172554;"><span>✨</span><div class="al-asset-anim-badge"><i class="fas fa-film"></i> 循环</div></div><div class="al-asset-body"><div class="al-asset-name">魔法粒子特效</div><div class="al-asset-meta">火/冰/电/治疗 ×4</div><div class="al-asset-tags"><span>特效</span><span>魔法</span></div></div><div class="al-asset-actions"><button class="al-asset-btn primary"><i class="fas fa-download"></i></button><button class="al-asset-btn"><i class="fas fa-eye"></i></button></div></div>
+                </div>
+            </section>
+
+            <!-- 音效资产 -->
+            <section class="al-section">
+                <div class="al-section-header">
+                    <h2><i class="fas fa-music" style="color:#F59E0B;"></i> 音效 & BGM</h2>
+                    <span class="al-section-sub">背景音乐 · 交互音效 · 环境音</span>
+                </div>
+                <div class="al-audio-grid">
+                    <div class="al-audio-card"><div class="al-audio-icon">🎵</div><div class="al-audio-info"><div class="al-audio-name">8-bit 战斗BGM</div><div class="al-audio-meta">60s · 循环 · 像素风</div></div><button class="al-audio-play"><i class="fas fa-play"></i></button><button class="al-asset-btn primary"><i class="fas fa-download"></i></button></div>
+                    <div class="al-audio-card"><div class="al-audio-icon">🎵</div><div class="al-audio-info"><div class="al-audio-name">奇幻冒险BGM</div><div class="al-audio-meta">90s · 循环 · 管弦乐</div></div><button class="al-audio-play"><i class="fas fa-play"></i></button><button class="al-asset-btn primary"><i class="fas fa-download"></i></button></div>
+                    <div class="al-audio-card"><div class="al-audio-icon">🎵</div><div class="al-audio-info"><div class="al-audio-name">赛博电子BGM</div><div class="al-audio-meta">45s · 循环 · 合成器</div></div><button class="al-audio-play"><i class="fas fa-play"></i></button><button class="al-asset-btn primary"><i class="fas fa-download"></i></button></div>
+                    <div class="al-audio-card"><div class="al-audio-icon">🔫</div><div class="al-audio-info"><div class="al-audio-name">射击音效包</div><div class="al-audio-meta">激光/子弹/能量 ×6</div></div><button class="al-audio-play"><i class="fas fa-play"></i></button><button class="al-asset-btn primary"><i class="fas fa-download"></i></button></div>
+                    <div class="al-audio-card"><div class="al-audio-icon">💥</div><div class="al-audio-info"><div class="al-audio-name">爆炸音效包</div><div class="al-audio-meta">小/中/大/BOSS ×4</div></div><button class="al-audio-play"><i class="fas fa-play"></i></button><button class="al-asset-btn primary"><i class="fas fa-download"></i></button></div>
+                    <div class="al-audio-card"><div class="al-audio-icon">⭐</div><div class="al-audio-info"><div class="al-audio-name">UI反馈音效包</div><div class="al-audio-meta">点击/拾取/升级/失败 ×8</div></div><button class="al-audio-play"><i class="fas fa-play"></i></button><button class="al-asset-btn primary"><i class="fas fa-download"></i></button></div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script>
+    // Filter tag toggle
+    document.querySelectorAll('.al-filter-tags').forEach(group => {
+        group.querySelectorAll('.al-ftag').forEach(btn => {
+            btn.addEventListener('click', () => {
+                group.querySelectorAll('.al-ftag').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            });
+        });
+    });
+    </script>
+</body>
+</html>

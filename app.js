@@ -6723,6 +6723,87 @@ async function simulateMultiAgentGeneration(prompt, mentioned) {
         });
 
         await delay(800);
+        if (!AppState.isGenerating) return;
+
+        // 阶段5: 推荐资产包卡片
+        addGroupMessage('coordinator', `📦 **推荐资产包已就绪** — 请查看方案面板`);
+        await delay(400);
+        Whiteboard.addCard({
+            id: 'assets-' + Date.now(),
+            type: 'assets',
+            icon: '📦',
+            title: `${gameType} — 推荐资产包`,
+            subtitle: '根据方案自动匹配 · 风格统一',
+            accentColor: '#10B981',
+            tags: [
+                { icon: 'fas fa-palette', text: styleText + '风', highlight: true },
+                { icon: 'fas fa-user-astronaut', text: '角色×5' },
+                { icon: 'fas fa-image', text: '背景×2' },
+                { icon: 'fas fa-burst', text: '特效×4' },
+                { icon: 'fas fa-music', text: '音效×10' },
+                { icon: 'fas fa-icons', text: 'UI×8' },
+            ],
+            sections: [
+                {
+                    icon: 'fas fa-user-astronaut',
+                    title: '角色资产',
+                    items: [
+                        '🚀 玩家战机 — 4帧飞行动画 · 32×32px [一键导入]',
+                        '👾 小型敌机 — 2帧闪烁动画 · 24×24px [一键导入]',
+                        '🛸 中型敌机 — 4帧旋转动画 · 32×32px [一键导入]',
+                        '💀 BOSS敌机 — 6帧动画 · 64×64px [一键导入]',
+                        '💫 子弹 — 2帧发光动画 · 8×8px [一键导入]',
+                    ]
+                },
+                {
+                    icon: 'fas fa-image',
+                    title: '场景背景',
+                    items: [
+                        '🌌 星空滚动背景 — 无缝循环 · 390×844px [一键导入]',
+                        '🌀 星云装饰层 — 半透明叠加 · 390×844px [一键导入]',
+                    ]
+                },
+                {
+                    icon: 'fas fa-burst',
+                    title: '特效资产',
+                    items: [
+                        '💥 小型爆炸 — 6帧动画 · 32×32px [一键导入]',
+                        '🔥 大型爆炸 — 8帧动画 · 64×64px [一键导入]',
+                        '✨ 护盾光效 — 4帧循环 · 48×48px [一键导入]',
+                        '⚡ 强化特效 — 6帧循环 · 32×32px [一键导入]',
+                    ]
+                },
+                {
+                    icon: 'fas fa-icons',
+                    title: 'UI 组件',
+                    items: [
+                        '❤️ 生命值图标 — 16×16px · 满/空两态 [一键导入]',
+                        '⭐ 分数图标 — 16×16px [一键导入]',
+                        '▶️ 开始按钮 — 120×40px [一键导入]',
+                        '⏸ 暂停按钮 — 32×32px [一键导入]',
+                        '🔄 重玩按钮 — 120×40px [一键导入]',
+                        '📊 排行榜按钮 — 120×40px [一键导入]',
+                        '🏆 游戏LOGO — 200×60px [一键导入]',
+                        '📱 HUD面板 — 顶部状态栏模板 [一键导入]',
+                    ]
+                },
+                {
+                    icon: 'fas fa-music',
+                    title: '音效资产',
+                    items: [
+                        '🎵 菜单BGM — 氛围电子 · 30s循环 [一键导入]',
+                        '🎵 战斗BGM — 8-bit快节奏 · 60s循环 [一键导入]',
+                        '🔫 射击音效 ×2 — 激光/能量弹 [一键导入]',
+                        '💥 爆炸音效 ×3 — 小/中/大 [一键导入]',
+                        '⭐ 得分音效 — 金币叮咚 [一键导入]',
+                        '💊 道具拾取 — 升级音效 [一键导入]',
+                        '☠️ 失败音效 — 低沉警告 [一键导入]',
+                    ]
+                },
+            ]
+        });
+
+        await delay(600);
         // 简要确认消息
         addGroupMessage('coordinator', `✅ **所有方案已就绪！** 请在中间的方案面板查看并确认\n\n确认后将交付开发团队开始编码`, 'plan_confirm_inline');
     } else {

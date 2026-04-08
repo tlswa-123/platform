@@ -7564,3 +7564,17 @@ select.project-selector:hover {
 .team-msg-bubble { padding: 9px 13px; border-radius: var(--radius-md); font-size: 13px; line-height: 1.7; color: var(--text-primary); background: var(--bg-white); border: 1px solid var(--border-lighter); }
 .team-msg.other .team-msg-bubble { border-top-left-radius: 4px; }
 .team-msg.self .team-msg-bubble { background: var(--primary); color: #fff; border-color: var(--primary); border-top-right-radius: 4px; }
+
+/* ---- Dashboard nav buttons ---- */
+.dash-nav-right { display: flex; align-items: center; gap: 8px; }
+.dash-community-btn, .dash-asset-btn {
+    display: inline-flex; align-items: center; gap: 7px;
+    padding: 7px 16px; border-radius: var(--radius-sm);
+    font-size: 13px; font-weight: 500; text-decoration: none;
+    transition: filter 0.2s, transform 0.2s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.dash-community-btn { background: linear-gradient(135deg, #6366F1, #8B5CF6); color: #fff; }
+.dash-asset-btn { background: linear-gradient(135deg, #10B981, #059669); color: #fff; }
+.dash-community-btn:hover, .dash-asset-btn:hover { filter: brightness(1.1); transform: translateY(-1px); }
+.dash-community-btn i, .dash-asset-btn i { font-size: 12px; }

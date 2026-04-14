@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <title>WeCreat</title>
+    <link rel="stylesheet" href="styles.css?v=20260408v42">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <!-- ====== Dashboard 欢迎首页（v18 布局调整） ====== -->
+    <div id="dashboardView" class="dashboard-view">
+        <!-- 顶部导航 -->
+        <nav class="dash-nav">
+            <div class="dash-nav-left">
+                <i class="fas fa-gamepad dash-nav-logo"></i>
+                <span class="dash-nav-brand">WeCreat</span>
+            </div>
+        </nav>
+
+        <!-- 主内容区 -->
+        <div class="dash-main">
+            <!-- ★ 品牌主题头卡：Mesh Gradient 动画 + 完整角色展示 -->
+            <section class="dash-hero-card" id="dashHeroCard">
+                <!-- Mesh Gradient 动画背景 -->
+                <div class="dash-hero-mesh">
+                    <div class="mesh-orb orb-1"></div>
+                    <div class="mesh-orb orb-2"></div>
+                    <div class="mesh-orb orb-3"></div>
+                    <div class="mesh-orb orb-4"></div>
+                    <div class="mesh-orb orb-5"></div>
+                </div>
+                <!-- 网格点阵装饰 -->
+                <div class="dash-hero-dots"></div>
+                <!-- 内容层 -->
+                <div class="dash-hero-content">
+                    <div class="dash-hero-top">
+                        <div class="dash-hero-greet-area">
+                            <div class="dash-hero-greeting-row">
+                                <h2 class="dash-hero-greeting" id="dashGreetingText">下午好</h2>
+                                <button class="dash-hero-cta" id="dashHeroCta">
+                                    <i class="fas fa-plus"></i> 新作品
+                                </button>
+                            </div>
+                            <p class="dash-hero-quote" id="dashQuoteText">今天想做点什么好玩的？</p>
+                        </div>
+                    </div>
+                    <!-- 个人数据 Stats Bar -->
+                    <div class="dash-hero-stats-bar" id="dashStatsBar">
+                        <div class="stat-card" id="statPublished">
+                            <div class="stat-icon">🎮</div>
+                            <div class="stat-value" id="statPublishedVal">0</div>
+                            <div class="stat-label">已发布作品</div>
+                        </div>
+                        <div class="stat-card" id="statPlayers">
+                            <div class="stat-icon">👥</div>
+                            <div class="stat-value" id="statPlayersVal">1.2k</div>
+                            <div class="stat-label">累计玩家</div>
+                        </div>
+                        <div class="stat-card" id="statToken">
+                            <div class="stat-token-info">
+                                <div class="stat-token-row">
+                                    <span class="stat-token-label">今日额度</span>
+                                    <span class="stat-token-value" id="tokenValueText">⚡ 8,770 <small>/ 10,000</small></span>
+                                </div>
+                                <div class="stat-token-bar">
+                                    <div class="stat-token-bar-fill" id="tokenBarFill" style="width:87.7%"></div>
+                                </div>
+                                <div class="stat-token-hint">每日 00:00 自动刷新免费额度</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ★ 我的作品（首位为创建卡片） -->
+            <section class="dash-projects" id="dashProjects">
+                <div class="dash-projects-header">
+                    <h3 class="dash-section-title">我的作品</h3>
+                    <button class="dash-view-all-btn" id="dashViewAllBtn">
+                        查看全部 <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+                <div class="dash-projects-grid" id="dashProjectsGrid">
+                    <!-- 由 JS 动态渲染（最多展示 4 个 + 虚线新建卡） -->
+                </div>
+            </section>
+
+            <!-- ★ 社区精选作品 -->
+            <section class="dash-community" id="dashCommunity">
+                <div class="dash-community-header">
+                    <div class="dash-community-header-left">
+                        <h3 class="dash-section-title">开发者社区</h3>
+                        <span class="dash-section-sub">和创作者们交流经验、分享灵感</span>
+                    </div>
+                    <div class="dash-community-tabs" id="dashCommunityTabs">
+                        <button class="comm-tab active" data-tab="hot">🔥 精选</button>
+                        <button class="comm-tab" data-tab="latest">📅 最新</button>
+                        <button class="comm-tab" data-tab="tutorial">📚 教程</button>
+                        <button class="comm-tab" data-tab="discussion">💬 讨论</button>
+                    </div>
+                </div>
+                <div class="dash-community-grid" id="dashCommunityGrid">
+                    <!-- 由 JS 动态渲染 -->
+                </div>
+                <button class="dash-community-more" id="dashCommunityMore">查看更多 <i class="fas fa-chevron-right"></i></button>
+            </section>
+        </div>
+
+        <!-- ★ 帖子详情页（独立全屏层，从右滑入） -->
+        <div class="dash-post-detail" id="dashPostDetail" style="display:none;">
+            <div class="post-detail-header">
+                <button class="post-detail-back" id="postDetailBack">
+                    <i class="fas fa-chevron-left"></i> 返回
+                </button>
+                <div class="post-detail-actions">
+                    <button class="post-action-btn" id="postLikeBtn"><i class="far fa-heart"></i> <span id="postLikeCount">0</span></button>
+                    <button class="post-action-btn" id="postFavBtn"><i class="far fa-bookmark"></i> 收藏</button>
+                    <button class="post-action-btn" id="postShareBtn"><i class="fas fa-share-nodes"></i> 分享</button>
+                </div>
+            </div>
+            <div class="post-detail-body">
+                <div class="post-detail-main" id="postDetailMain">
+                    <!-- 正文区：标题+作者+正文+试玩iframe -->
+                </div>
+                <div class="post-detail-sidebar" id="postDetailSidebar">
+                    <!-- 评论区 -->
+                    <div class="post-comments-header">
+                        <span>💬 评论 <span id="postCommentCount">0</span></span>
+                    </div>
+                    <div class="post-comments-list" id="postCommentsList"></div>
+                    <div class="post-comment-input">
+                        <textarea id="postCommentInput" placeholder="写下你的想法..." rows="2"></textarea>
+                        <button class="post-comment-send" id="postCommentSend">发送</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ★ 全部作品页（独立全屏层，从右滑入） -->
+        <div class="dash-all-projects" id="dashAllProjects" style="display:none;">
+            <div class="dash-all-header">
+                <button class="dash-all-back" id="dashAllBack">
+                    <i class="fas fa-chevron-left"></i> 返回
+                </button>
+                <h3 class="dash-all-title">我的全部作品</h3>
+                <button class="dash-all-new-btn" id="dashAllNewBtn">
+                    <i class="fas fa-plus"></i> 新建作品
+                </button>
+            </div>
+            <div class="dash-all-grid" id="dashAllGrid">
+                <!-- 由 JS 渲染全部项目卡片 -->
+            </div>
+        </div>
+    </div>
+
+    <!-- ====== 创作工作台（原有内容） ====== -->
+    <div class="app-container" id="workspaceView" style="display:none;">
+        <!-- 顶部操作栏 -->
+        <header class="topbar" id="topbar">
+            <div class="topbar-left">
+                <button class="topbar-back-btn" id="btnBackHome" title="返回首页">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <div class="topbar-logo" title="WeCreat">
+                    <i class="fas fa-gamepad"></i>
+                </div>
+                <div class="topbar-divider"></div>
+                <h2 class="project-title" id="projectTitle" title="点击修改标题">太空射击小游戏</h2>
+                <span class="project-status running" id="projectStatus">执行中</span>
+                <!-- API 模式开关 -->
+                <div class="api-mode-switch" title="切换仿真/真实 API 模式">
+                    <label class="api-toggle">
+                        <input type="checkbox" id="apiModeToggle">
+                        <span class="api-toggle-slider"></span>
+                    </label>
+                    <span id="apiModeLabel" class="api-mode-label">仿真模式</span>
+                </div>
+                <!-- Quick/Collab 模式切换 -->
+                <div class="mode-switch" id="modeSwitch" title="Quick：一句话自动生成 · Collab：多轮深度协作">
+                    <button class="mode-btn active" data-mode="quick" id="modeBtnQuick">
+                        <i class="fas fa-bolt"></i> Quick
+                    </button>
+                    <button class="mode-btn" data-mode="collab" id="modeBtnCollab">
+                        <i class="fas fa-comments"></i> Collab
+                    </button>
+                </div>
+                <!-- V38: 模型选择器 -->
+                <div class="model-selector" id="modelSelector" title="选择 AI 模型">
+                    <select id="modelSelect" class="model-select">
+                        <option value="glm" selected>GLM-5</option>
+                        <option value="claude">Claude</option>
+                        <option value="codebuddy">CodeBuddy</option>
+                    </select>
+                </div>
+            </div>
+            <div class="topbar-center">
+                <div class="topbar-custom-tools" id="topbarCustomTools">
+                    <button class="topbar-btn" data-tool="layout" title="布局工具">
+                        <i class="fas fa-crosshairs"></i>
+                        <span>布局</span>
+                    </button>
+                    <button class="topbar-btn" data-tool="skills" title="技能商店">
+                        <i class="fas fa-puzzle-piece"></i>
+                        <span>技能</span>
+                    </button>
+                    <button class="topbar-btn topbar-add-tool-btn" id="btnAddTool" title="添加自定义工具">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="topbar-right">
+                <button class="topbar-btn topbar-versions-btn" id="btnVersionsToggle" title="版本历史">
+                    <i class="fas fa-code-branch"></i>
+                    <span>版本</span>
+                </button>
+                <button class="topbar-publish-btn" id="btnPublish" title="发布">
+                    <i class="fas fa-rocket"></i>
+                    <span>发布</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- ====== 主体区域 ====== -->
+        <div class="main-body">
+
+            <!-- ===== 最左侧：项目侧边栏（V31 简化） ===== -->
+            <nav class="conv-sidebar" id="convSidebar">
+                <div class="conv-sidebar-header">
+                    <span class="conv-sidebar-header-title">💬 AI 工作室</span>
+                </div>
+                <!-- V31: 团队角色状态面板 -->
+                <div class="team-status-panel" id="teamStatusPanel">
+                    <!-- 由 JS 动态渲染角色状态 -->
+                </div>
+                <!-- V38: 素材快览入口 -->
+                <div class="sidebar-asset-entry" id="sidebarAssetEntry">
+                    <div class="sidebar-asset-header" id="sidebarAssetHeader">
+                        <div class="sidebar-asset-title-row">
+                            <i class="fas fa-cube sidebar-asset-icon"></i>
+                            <span class="sidebar-asset-title">项目素材</span>
+                            <span class="sidebar-asset-count" id="sidebarAssetCount">0 个</span>
+                        </div>
+                        <button class="sidebar-asset-add" id="sidebarAssetAddBtn" title="上传素材">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                    <div class="sidebar-asset-thumbs" id="sidebarAssetThumbs">
+                        <!-- 缩略图预览（最多显示7个+溢出） -->
+                        <div class="sidebar-asset-empty" id="sidebarAssetEmpty">
+                            <span>点击查看或上传素材</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="conv-sidebar-items" id="convGroupItems">
+                    <!-- V31: 子线程列表（从主线拆出的讨论线程） -->
+                </div>
+            </nav>
+
+            <!-- ===== 对话面板 ===== -->
+            <aside class="chat-panel" id="chatPanel">
+                <!-- 对话头部（显示当前群名） -->
+                <div class="chat-panel-header" id="chatPanelHeader">
+                    <span class="chat-panel-title" id="chatPanelTitle">团队群聊</span>
+                    <div class="chat-panel-header-actions">
+                        <button class="chat-header-btn" id="btnReviewToggle" title="评审区">
+                            <i class="fas fa-clipboard-check"></i>
+                            <span class="review-badge-dot" id="reviewBadgeDot"></span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 隐藏的 header（保留 DOM 引用兼容性） -->
+                <div class="chat-header" id="chatHeader" style="display:none;">
+                    <div class="chat-header-left">
+                        <button class="chat-back-btn" id="chatBackBtn"><i class="fas fa-chevron-left"></i> 群聊</button>
+                        <div class="chat-agent-info" id="chatAgentInfo">
+                            <h3 class="chat-title" id="chatTitle"></h3>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 消息区域 -->
+                <div class="chat-messages" id="chatMessages">
+                    <div class="welcome-screen" id="welcomeScreen"></div>
+                </div>
+
+                <!-- V40: 任务进度面板已移到侧边栏 -->
+
+                <!-- 输入区域 -->
+                <div class="chat-input-wrapper">
+                    <div class="chat-input-container" id="chatInputContainer">
+                        <div class="mention-dropdown" id="mentionDropdown" style="display:none;"></div>
+                        <div class="input-tools">
+                            <button class="btn-icon btn-upload" id="btnUpload" title="上传素材">
+                                <i class="fas fa-paperclip"></i>
+                            </button>
+                            <button class="btn-icon btn-reference" id="btnReference" title="参考游戏">
+                                <i class="fas fa-link"></i>
+                            </button>
+                            <input type="file" id="fileInput" multiple accept="image/*,audio/*,.json,.js,.css,.html" style="display:none;">
+                            <div class="uploaded-files" id="uploadedFiles"></div>
+                            <div class="image-attach-preview" id="imageAttachPreview" style="display:none;"></div>
+                        </div>
+                        <div class="coords-reference-bar" id="coordsRefBar" style="display:none;">
+                            <div class="coords-ref-content">
+                                <i class="fas fa-crosshairs"></i>
+                                <span id="coordsRefText"></span>
+                            </div>
+                            <button class="coords-ref-remove" id="btnRemoveRef"><i class="fas fa-xmark"></i></button>
+                        </div>
+                        <!-- V30: 单聊引用卡片预览 -->
+                        <div class="quote-reference-bar" id="quoteRefBar" style="display:none;">
+                            <div class="quote-ref-icon"><i class="fas fa-quote-right"></i></div>
+                            <div class="quote-ref-body">
+                                <div class="quote-ref-source" id="quoteRefSource"></div>
+                                <div class="quote-ref-preview" id="quoteRefPreview"></div>
+                            </div>
+                            <button class="quote-ref-remove" id="btnRemoveQuote"><i class="fas fa-xmark"></i></button>
+                        </div>
+                        <div class="asset-token-bar" id="assetTokenBar"></div>
+                        <div class="input-row">
+                            <textarea class="chat-input" id="chatInput" placeholder="描述你想要的游戏... 输入 @ 指定Agent" rows="1"></textarea>
+                            <div class="input-actions">
+                                <button class="btn-pause" id="btnPause" title="暂停任务" style="display:none;">
+                                    <i class="fas fa-pause"></i>
+                                </button>
+                                <button class="btn-send" id="btnSend" title="发送">
+                                    <i class="fas fa-arrow-up"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="input-hint">
+                            <span id="inputHintText">Enter 发送 · Shift+Enter 换行 · @ 指定Agent</span>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- 左分隔条 -->
+            <div class="resize-handle resize-handle-left" id="resizeHandleLeft">
+                <div class="resize-handle-line"></div>
+            </div>
+
+            <!-- ===== V31 子线程面板（V32: 已废弃独立列，改为对话窗口内切换） ===== -->
+            <aside class="thread-panel" id="threadPanel" style="display:none !important;"></aside>
+
+            <!-- ===== 中栏：方案面板（卡片白板形式） ===== -->
+            <main class="plan-board-panel collapsed" id="reviewPanel">
+                <div class="plan-board-header">
+                    <div class="plan-board-tabs" id="reviewTabs">
+                        <button class="plan-board-tab active" data-tab="plans" id="planBoardTabPlans"><i class="fas fa-clipboard-list"></i> 方案</button>
+                    </div>
+                    <button class="plan-board-collapse-btn" id="reviewCollapseBtn" title="收起"><i class="fas fa-chevron-left"></i></button>
+                </div>
+                <div class="plan-board-body" id="reviewContent">
+                    <div class="whiteboard-container" id="whiteboardContainer">
+                        <div id="wbCardsArea">
+                            <div class="whiteboard-empty" id="wbEmpty">
+                                <i class="fas fa-note-sticky"></i>
+                                <p>方案将以卡片形式展示在这里<br>发送游戏需求后，策划和美术会各自贴出方案</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+            <!-- 右分隔条 -->
+            <div class="resize-handle resize-handle-right" id="resizeHandleRight">
+                <div class="resize-handle-line"></div>
+            </div>
+
+            <!-- ===== 右栏：游戏预览 ===== -->
+            <section class="preview-panel" id="previewPanel">
+                <div class="preview-toolbar">
+                    <div class="preview-toolbar-left">
+                        <div class="device-dropdown" id="deviceDropdown">
+                            <button class="device-dropdown-trigger" id="deviceDropdownTrigger">
+                                <i class="fas fa-mobile-screen-button" id="deviceDropdownIcon"></i>
+                                <span id="deviceDropdownLabel">iPhone 14</span>
+                                <span class="device-size-tag" id="deviceSizeLabel">390×844</span>
+                                <i class="fas fa-chevron-down device-dropdown-arrow"></i>
+                            </button>
+                            <div class="device-dropdown-menu" id="deviceDropdownMenu">
+                                <div class="device-dropdown-item active" data-device="iphone14">
+                                    <i class="fas fa-mobile-screen-button"></i>
+                                    <div class="device-dropdown-item-info">
+                                        <span class="device-dropdown-item-name">iPhone 14</span>
+                                        <span class="device-dropdown-item-size">390 × 844</span>
+                                    </div>
+                                </div>
+                                <div class="device-dropdown-item" data-device="iphone14pro">
+                                    <i class="fas fa-mobile-screen-button"></i>
+                                    <div class="device-dropdown-item-info">
+                                        <span class="device-dropdown-item-name">iPhone 14 Pro Max</span>
+                                        <span class="device-dropdown-item-size">430 × 932</span>
+                                    </div>
+                                </div>
+                                <div class="device-dropdown-item" data-device="ipad">
+                                    <i class="fas fa-tablet-screen-button"></i>
+                                    <div class="device-dropdown-item-info">
+                                        <span class="device-dropdown-item-name">iPad</span>
+                                        <span class="device-dropdown-item-size">820 × 1180</span>
+                                    </div>
+                                </div>
+                                <div class="device-dropdown-item" data-device="desktop">
+                                    <i class="fas fa-desktop"></i>
+                                    <div class="device-dropdown-item-info">
+                                        <span class="device-dropdown-item-name">桌面</span>
+                                        <span class="device-dropdown-item-size">1280 × 800</span>
+                                    </div>
+                                </div>
+                                <div class="device-dropdown-separator"></div>
+                                <div class="device-dropdown-item" data-device="custom">
+                                    <i class="fas fa-crop-simple"></i>
+                                    <div class="device-dropdown-item-info">
+                                        <span class="device-dropdown-item-name">自定义尺寸</span>
+                                        <span class="device-dropdown-item-size">自由输入</span>
+                                    </div>
+                                </div>
+                                <div class="custom-size-row" id="customSizeRow" style="display:none;">
+                                    <input type="number" class="size-input" id="customWidth" placeholder="宽" value="375">
+                                    <span class="size-x">×</span>
+                                    <input type="number" class="size-input" id="customHeight" placeholder="高" value="667">
+                                    <button class="custom-size-apply" id="btnApplyCustomSize">应用</button>
+                                </div>
+                                <div class="device-dropdown-separator"></div>
+                                <div class="device-dropdown-item device-orientation-item" id="deviceOrientationItem">
+                                    <i class="fas fa-rotate" id="orientationIcon"></i>
+                                    <div class="device-dropdown-item-info">
+                                        <span class="device-dropdown-item-name" id="orientationLabel">切换为横屏</span>
+                                        <span class="device-dropdown-item-size">旋转设备方向</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="preview-toolbar-right">
+                        <button class="preview-tool-btn error-indicator" id="btnErrorIndicator" title="预览区报错" style="display:none;">
+                            <i class="fas fa-bug"></i>
+                            <span class="error-count" id="errorCount">0</span>
+                        </button>
+                        <button class="preview-tool-btn" id="btnRefreshPreview" title="刷新">
+                            <i class="fas fa-rotate-right"></i>
+                        </button>
+                        <button class="preview-tool-btn" id="btnFullscreen" title="全屏">
+                            <i class="fas fa-expand"></i>
+                        </button>
+                        <div class="layout-mode-toggle" id="layoutModeToggle" style="display:none;">
+                            <span class="layout-mode-label">布局模式</span>
+                            <button class="layout-toggle-btn active" id="btnLayoutToggle">
+                                <i class="fas fa-crosshairs"></i> 开启中
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 设备仿真区域 -->
+                <div class="preview-viewport" id="previewViewport">
+                    <!-- V40: 素材坞已移除，素材统一在侧边栏管理 -->
+                    <div class="device-frame" id="deviceFrame">
+                        <div class="device-notch" id="deviceNotch">
+                            <div class="notch-bar"></div>
+                        </div>
+                        <div class="device-screen" id="deviceScreen">
+                            <div class="preview-content" id="previewContent">
+                                <div class="preview-placeholder" id="previewPlaceholder">
+                                    <div class="preview-placeholder-icon"><i class="fas fa-gamepad"></i></div>
+                                    <div class="preview-placeholder-text">生成后在此处预览</div>
+                                    <div class="preview-placeholder-hint">在左侧输入你的创意，AI 工作室将为你生成游戏</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="device-home-bar" id="deviceHomeBar">
+                            <div class="home-indicator"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 错误面板 -->
+                <div class="error-panel" id="errorPanel" style="display:none;">
+                    <div class="error-panel-header">
+                        <span><i class="fas fa-bug"></i> 预览错误</span>
+                        <div class="error-panel-actions">
+                            <button class="error-fix-all-btn" id="btnFixAllErrors" title="一键修复所有错误"><i class="fas fa-wrench"></i> 一键修复</button>
+                            <button class="error-send-mage-btn" id="btnSendToMage" title="发送给码哥修复"><i class="fas fa-code"></i> 找码哥</button>
+                            <button class="error-clear-btn" id="btnClearErrors" title="清空"><i class="fas fa-trash"></i></button>
+                            <button class="error-close-btn" id="btnCloseErrorPanel"><i class="fas fa-xmark"></i></button>
+                        </div>
+                    </div>
+                    <div class="error-panel-list" id="errorPanelList"></div>
+                </div>
+
+                <!-- 像素坐标面板 -->
+                <div class="pixel-overlay" id="pixelOverlay" style="display:none;">
+                    <canvas class="pixel-canvas" id="pixelCanvas"></canvas>
+                </div>
+                <div class="layout-exit-overlay" id="layoutExitOverlay" style="display:none;">
+                    <button class="layout-exit-btn" id="btnExitLayout">
+                        <i class="fas fa-xmark"></i> 退出布局模式
+                    </button>
+                </div>
+                <div class="layout-floating-panel" id="layoutFloatingPanel" style="display:none;">
+                    <!-- 画面参数区 -->
+                    <div class="layout-float-section layout-params-section">
+                        <div class="layout-float-header">
+                            <i class="fas fa-sliders"></i>
+                            <span class="layout-float-title">画面参数</span>
+                            <button class="layout-param-refresh-btn" id="btnRefreshParams" title="重新分析"><i class="fas fa-rotate"></i></button>
+                        </div>
+                        <div class="layout-params-body" id="layoutParamsBody">
+                            <div class="layout-param-loading" id="layoutParamLoading">
+                                <i class="fas fa-spinner fa-spin"></i> 分析画面中...
+                            </div>
+                            <!-- 亮度 -->
+                            <div class="layout-param-row" id="layoutParamBrightness" style="display:none;">
+                                <div class="layout-param-label">
+                                    <i class="fas fa-sun"></i> 亮度
+                                    <span class="layout-param-value" id="brightnessValue">100%</span>
+                                </div>
+                                <input type="range" class="layout-param-slider" id="brightnessSlider" min="30" max="170" value="100" step="5">
+                                <button class="layout-param-reset-btn" id="btnResetBrightness" title="重置"><i class="fas fa-undo"></i></button>
+                            </div>
+                            <!-- 对比度 -->
+                            <div class="layout-param-row" id="layoutParamContrast" style="display:none;">
+                                <div class="layout-param-label">
+                                    <i class="fas fa-circle-half-stroke"></i> 对比度
+                                    <span class="layout-param-value" id="contrastValue">100%</span>
+                                </div>
+                                <input type="range" class="layout-param-slider" id="contrastSlider" min="50" max="200" value="100" step="5">
+                                <button class="layout-param-reset-btn" id="btnResetContrast" title="重置"><i class="fas fa-undo"></i></button>
+                            </div>
+                            <!-- 饱和度 -->
+                            <div class="layout-param-row" id="layoutParamSaturate" style="display:none;">
+                                <div class="layout-param-label">
+                                    <i class="fas fa-droplet"></i> 饱和度
+                                    <span class="layout-param-value" id="saturateValue">100%</span>
+                                </div>
+                                <input type="range" class="layout-param-slider" id="saturateSlider" min="0" max="200" value="100" step="5">
+                                <button class="layout-param-reset-btn" id="btnResetSaturate" title="重置"><i class="fas fa-undo"></i></button>
+                            </div>
+                            <!-- 主要颜色 -->
+                            <div class="layout-param-colors" id="layoutParamColors" style="display:none;">
+                                <div class="layout-param-label"><i class="fas fa-palette"></i> 主要颜色</div>
+                                <div class="layout-color-swatches" id="layoutColorSwatches"></div>
+                            </div>
+                            <!-- 分辨率 -->
+                            <div class="layout-param-info" id="layoutParamInfo" style="display:none;"></div>
+                        </div>
+                    </div>
+
+                    <!-- 分隔线 -->
+                    <div class="layout-float-divider"></div>
+
+                    <!-- 坐标标记区 -->
+                    <div class="layout-float-section">
+                        <div class="layout-float-header">
+                            <i class="fas fa-crosshairs"></i>
+                            <span class="layout-float-title">坐标标记</span>
+                            <span class="layout-float-count" id="layoutFloatingCount">点击屏幕标记坐标</span>
+                        </div>
+                        <div class="layout-float-tags" id="layoutFloatingTags"></div>
+                        <div class="layout-float-actions">
+                            <button class="layout-float-btn" id="btnFloatClear">
+                                <i class="fas fa-trash"></i> 清除
+                            </button>
+                        <button class="layout-float-btn primary" id="btnFloatSend">
+                            <i class="fas fa-quote-right"></i> 引用到对话
+                        </button>
+                    </div>
+                    </div>
+                </div>
+                <div class="pixel-coords-bar" id="pixelCoordsBar" style="display:none;">
+                    <div class="coords-info">
+                        <span class="coords-label">已标记坐标:</span>
+                        <div class="coords-tags" id="coordsTags"></div>
+                    </div>
+                    <div class="coords-actions">
+                        <button class="coords-btn" id="btnClearCoords" title="清除标记">
+                            <i class="fas fa-trash"></i> 清除
+                        </button>
+                        <button class="coords-btn primary" id="btnSendCoords" title="引用到对话">
+                            <i class="fas fa-quote-right"></i> 引用到对话
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 版本抽屉 -->
+                <div class="versions-drawer" id="versionsDrawer">
+                    <div class="versions-drawer-header">
+                        <h3><i class="fas fa-code-branch"></i> 版本历史</h3>
+                        <div class="versions-drawer-actions">
+                            <button class="btn-save-version-sm" id="btnSaveVersion">
+                                <i class="fas fa-plus"></i> 保存
+                            </button>
+                            <button class="versions-drawer-close" id="btnCloseVersions">
+                                <i class="fas fa-xmark"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="versions-timeline" id="versionsTimeline">
+                        <div class="version-empty">
+                            <i class="fas fa-code-branch"></i>
+                            <p>暂无版本记录</p>
+                            <span>每次修改后保存版本，可随时回滚</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 技能面板 -->
+                <div class="skills-drawer" id="skillsDrawer">
+                    <div class="skills-drawer-header">
+                        <h3><i class="fas fa-puzzle-piece"></i> 技能</h3>
+                        <button class="skills-drawer-close" id="btnCloseSkills">
+                            <i class="fas fa-xmark"></i>
+                        </button>
+                    </div>
+                    <div class="skills-search">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="搜索技能..." id="skillsSearchInput">
+                    </div>
+                    <div class="skills-categories">
+                        <button class="skill-cat-btn active" data-cat="all">全部</button>
+                        <button class="skill-cat-btn" data-cat="art">美术</button>
+                        <button class="skill-cat-btn" data-cat="code">编程</button>
+                        <button class="skill-cat-btn" data-cat="audio">音效</button>
+                        <button class="skill-cat-btn" data-cat="tool">工具</button>
+                    </div>
+                    <div class="skills-list" id="skillsList">
+                        <div class="skill-item" data-skill="pixel-art">
+                            <div class="skill-icon" style="background:#EC4899;">🎨</div>
+                            <div class="skill-info">
+                                <div class="skill-name">像素画生成器</div>
+                                <div class="skill-desc">自动将图片转换为像素风格</div>
+                            </div>
+                            <button class="skill-toggle-btn installed">已启用</button>
+                        </div>
+                        <div class="skill-item" data-skill="ai-sound">
+                            <div class="skill-icon" style="background:#06B6D4;">🔊</div>
+                            <div class="skill-info">
+                                <div class="skill-name">AI 音效合成</div>
+                                <div class="skill-desc">文本描述生成游戏音效</div>
+                            </div>
+                            <button class="skill-toggle-btn installed">已启用</button>
+                        </div>
+                    </div>
+                    <div class="skills-footer">
+                        <span>💡 技能为你的工作区增加超能力</span>
+                    </div>
+                </div>
+            </section>
+
+        </div><!-- /main-body -->
+    </div>
+
+    <!-- 全屏预览弹窗 -->
+    <div class="modal-overlay" id="fullscreenModal" style="display:none;">
+        <div class="fullscreen-preview">
+            <div class="fullscreen-header">
+                <h3>游戏预览</h3>
+                <button class="btn-icon" id="btnExitFullscreen"><i class="fas fa-compress"></i></button>
+            </div>
+            <div class="fullscreen-content" id="fullscreenContent"></div>
+        </div>
+    </div>
+
+    <!-- 图片预览弹层 (V38: 增强为素材预览) -->
+    <div class="image-preview-overlay" id="imagePreviewOverlay" style="display:none;">
+        <img id="imagePreviewImg" src="" alt="">
+        <!-- V38: 音频预览区 -->
+        <div class="asset-audio-preview" id="assetAudioPreview" style="display:none;">
+            <div class="audio-preview-icon"><i class="fas fa-music"></i></div>
+            <div class="audio-preview-name" id="audioPreviewName"></div>
+            <audio controls id="audioPreviewPlayer"></audio>
+        </div>
+        <!-- V38: 素材信息栏 -->
+        <div class="asset-info-bar" id="assetInfoBar" style="display:none;">
+            <div class="asset-info-details" id="assetInfoDetails"></div>
+            <div class="asset-info-actions">
+                <button class="asset-info-btn" id="assetBtnCopyPath" title="复制路径"><i class="fas fa-clipboard"></i> 复制路径</button>
+                <button class="asset-info-btn" id="assetBtnReplace" title="替换"><i class="fas fa-arrow-right-arrow-left"></i> 替换</button>
+                <button class="asset-info-btn" id="assetBtnRembg" title="抠图"><i class="fas fa-scissors"></i> 抠图</button>
+                <button class="asset-info-btn" id="assetBtnRename" title="重命名"><i class="fas fa-pen"></i> 重命名</button>
+                <button class="asset-info-btn" id="assetBtnDownload" title="下载"><i class="fas fa-download"></i> 下载</button>
+                <button class="asset-info-btn danger" id="assetBtnDelete" title="删除"><i class="fas fa-trash"></i> 删除</button>
+            </div>
+        </div>
+        <!-- V38: 左右切换 -->
+        <button class="asset-nav-btn asset-nav-prev" id="assetNavPrev" style="display:none;"><i class="fas fa-chevron-left"></i></button>
+        <button class="asset-nav-btn asset-nav-next" id="assetNavNext" style="display:none;"><i class="fas fa-chevron-right"></i></button>
+        <div class="image-preview-close"><i class="fas fa-xmark"></i></div>
+    </div>
+
+    <!-- 保存版本弹窗 -->
+    <div class="modal-overlay" id="saveVersionModal" style="display:none;">
+        <div class="modal-container small-modal">
+            <div class="modal-header">
+                <h3>保存版本</h3>
+                <button class="btn-icon modal-close" id="btnCloseSaveVersion">
+                    <i class="fas fa-xmark"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">版本备注</label>
+                    <input class="form-input" id="versionNote" placeholder="如：完成基础玩法">
+                </div>
+                <button class="btn-create-session" id="btnConfirmSaveVersion">
+                    <i class="fas fa-check"></i> 保存
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- V41: CodeBuddy API Key 设置弹窗 -->
+    <div class="modal-overlay" id="apiKeyModal" style="display:none;">
+        <div class="modal-container small-modal">
+            <div class="modal-header">
+                <h3><i class="fas fa-key"></i> CodeBuddy API Key</h3>
+                <button class="btn-icon modal-close" id="btnCloseApiKey">
+                    <i class="fas fa-xmark"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="apikey-hint">使用 CodeBuddy 模式需要填写 API Key。<br>
+                   Key 仅保存在本地浏览器中，不会上传到服务器。</p>
+                <div class="form-group">
+                    <label class="form-label">API Key</label>
+                    <div class="apikey-input-wrap">
+                        <input class="form-input apikey-input" id="codebuddyApiKeyInput"
+                               type="password" placeholder="sk-..." autocomplete="off">
+                        <button class="apikey-toggle-vis" id="apiKeyToggleVis" title="显示/隐藏">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="form-group" style="margin-top:8px;">
+                    <label class="form-label">网络环境 <span style="opacity:.5;">(可选)</span></label>
+                    <input class="form-input" id="codebuddyEnvInput"
+                           type="text" placeholder="如：internal / external" autocomplete="off">
+                </div>
+                <button class="btn-create-session" id="btnSaveApiKey">
+                    <i class="fas fa-check"></i> 保存
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 全局确认提醒 Toast -->
+    <div class="global-confirm-toast" id="globalConfirmToast" style="display:none;">
+        <div class="confirm-toast-content">
+            <i class="fas fa-bell confirm-toast-icon"></i>
+            <span class="confirm-toast-text" id="confirmToastText"></span>
+            <button class="confirm-toast-btn" id="confirmToastBtn">查看</button>
+            <button class="confirm-toast-close" id="confirmToastClose"><i class="fas fa-xmark"></i></button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/lib/marked.umd.js"></script>
+    <script src="app.js?v=20260408v42"></script>
+</body>
+</html>
